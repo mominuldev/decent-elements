@@ -29,8 +29,6 @@ class Admin_Menu
 	public function register_menu()
 	{
 
-		// $menu_logo = '<img src="' . plugin_dir_url(__FILE__) . 'assets/images/menu-logo.png" alt="Decent Elements Logo" style="height: 32px; width: auto; margin-right: 10px;" />';
-
 		add_menu_page(
 			__('Decent Elements', 'decent-elements'),
 			__('Decent Elements', 'decent-elements'),

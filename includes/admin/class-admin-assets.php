@@ -38,23 +38,23 @@ class Admin_Assets
 				wp_enqueue_script_module('vite-plugin-react', 'http://localhost:5178/src/main.js', array(), time());
 
 				?>
-				<script>
-                    var pluginName = {
-                        apiNonce: '<?php echo $apiNonce; ?>',
-                        root: '<?php echo $root; ?>',
-                        baseUrl: '<?php echo $baseUrl; ?>',
-                    }
-				</script>
-				<script type="module">
-                    import RefreshRuntime from "http://localhost:5178/@react-refresh"
-                    RefreshRuntime.injectIntoGlobalHook(window)
-                    window.$RefreshReg$ = () => {}
-                    window.$RefreshSig$ = () => (type) => type
-                    window.__vite_plugin_react_preamble_installed__ = true
-				</script>
-				<script type="module" src="http://localhost:5178/@vite/client"></script>
-				<script type="module" src="http://localhost:5178/src/main.jsx"></script>
-				<?php
+<script>
+var pluginName = {
+	apiNonce: '<?php echo $apiNonce; ?>',
+	root: '<?php echo $root; ?>',
+	baseUrl: '<?php echo $baseUrl; ?>',
+}
+</script>
+<script type="module">
+import RefreshRuntime from "http://localhost:5178/@react-refresh"
+RefreshRuntime.injectIntoGlobalHook(window)
+window.$RefreshReg$ = () => {}
+window.$RefreshSig$ = () => (type) => type
+window.__vite_plugin_react_preamble_installed__ = true
+</script>
+<script type="module" src="http://localhost:5178/@vite/client"></script>
+<script type="module" src="http://localhost:5178/src/main.jsx"></script>
+<?php
 			} else {
 				wp_enqueue_script('decent-elements-backend', DECENT_ELEMENTS_URL . 'includes/admin/assets/js/index.js', array('wp-i18n'), DECENT_ELEMENTS_VERSION, true);
 				wp_localize_script(
@@ -68,6 +68,10 @@ class Admin_Assets
 				);
 			}
 		}
+
+		// if (defined('DECENT_ELEMENTS_DEV') && !DECENT_ELEMENTS_DEV) {
+			wp_enqueue_style('decent-elements-admin', DECENT_ELEMENTS_URL . 'assets/css/admin.css', array(), DECENT_ELEMENTS_VERSION);
+		// }
 	}
 }
 
