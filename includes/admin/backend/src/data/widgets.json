@@ -50,7 +50,9 @@
 			"enabled": true,
 			"hasDemo": true,
 			"hasDocumentation": true,
-			"icon": "📝"
+			"icon": "📝",
+			"demoLink": "https://decentelements.com/heading-widget/",
+			"docsLinks": "https://decentelements.com/docs/heading-widget/"
 		},
 		{
 			"id": "dual-color-heading",
@@ -60,7 +62,9 @@
 			"enabled": true,
 			"hasDemo": true,
 			"hasDocumentation": true,
-			"icon": "🎨"
+			"icon": "🎨",
+			"demoLink": "https://decentelements.com/dual-color-heading-widget/",
+			"docsLinks": "https://decentelements.com/docs/dual-color-heading-widget/"
 		},
 		{
 			"id": "image-box",
@@ -70,7 +74,9 @@
 			"enabled": true,
 			"hasDemo": true,
 			"hasDocumentation": true,
-			"icon": "🖼️"
+			"icon": "🖼️",
+			"demoLink": "https://decentelements.com/image-box-widget/",
+			"docsLinks": "https://decentelements.com/docs/image-box-widget/"
 		},
 		{
 			"id": "icon-box",
@@ -80,7 +86,9 @@
 			"enabled": true,
 			"hasDemo": true,
 			"hasDocumentation": true,
-			"icon": "📦"
+			"icon": "📦",
+			"demoLink": "https://decentelements.com/icon-box-widget/",
+			"docsLinks": "https://decentelements.com/docs/icon-box-widget/"
 		},
 		{
 			"id": "info-box",
@@ -90,7 +98,9 @@
 			"enabled": true,
 			"hasDemo": true,
 			"hasDocumentation": true,
-			"icon": "ℹ️"
+			"icon": "ℹ️",
+			"demoLink": "https://decentelements.com/info-box-widget/",
+			"docsLinks": "https://decentelements.com/docs/info-box-widget/"
 		},
 		{
 			"id": "image-gallery",
@@ -100,7 +110,9 @@
 			"enabled": true,
 			"hasDemo": true,
 			"hasDocumentation": true,
-			"icon": "🖼️"
+			"icon": "🖼️",
+			"demoLink": "https://decentelements.com/image-gallery-widget/",
+			"docsLinks": "https://decentelements.com/docs/image-gallery-widget/"
 		},
 		{
 			"id": "accordion",
@@ -110,7 +122,9 @@
 			"enabled": true,
 			"hasDemo": true,
 			"hasDocumentation": true,
-			"icon": "📋"
+			"icon": "📋",
+			"demoLink": "https://decentelements.com/accordion-widget/",
+			"docsLinks": "https://decentelements.com/docs/accordion-widget/"
 		},
 		{
 			"id": "image-accordion",
@@ -120,7 +134,9 @@
 			"enabled": false,
 			"hasDemo": true,
 			"hasDocumentation": true,
-			"icon": "🖼️"
+			"icon": "🖼️",
+			"demoLink": "https://decentelements.com/image-accordion-widget/",
+			"docsLinks": "https://decentelements.com/docs/image-accordion-widget/"
 		},
 		{
 			"id": "faq",
@@ -130,7 +146,9 @@
 			"enabled": false,
 			"hasDemo": true,
 			"hasDocumentation": true,
-			"icon": "❓"
+			"icon": "❓",
+			"demoLink": "https://decentelements.com/faq-widget/",
+			"docsLinks": "https://decentelements.com/docs/faq-widget/"
 		},
 		{
 			"id": "toggle-content",
@@ -140,7 +158,9 @@
 			"enabled": false,
 			"hasDemo": true,
 			"hasDocumentation": true,
-			"icon": "🔄"
+			"icon": "🔄",
+			"demoLink": "https://decentelements.com/toggle-content-widget/",
+			"docsLinks": "https://decentelements.com/docs/toggle-content-widget/"
 		},
 		{
 			"id": "button",
@@ -150,7 +170,9 @@
 			"enabled": true,
 			"hasDemo": true,
 			"hasDocumentation": true,
-			"icon": "🔘"
+			"icon": "🔘",
+			"demoLink": "https://decentelements.com/button-widget/",
+			"docsLinks": "https://decentelements.com/docs/button-widget/"
 		},
 		{
 			"id": "stylish-list",
@@ -160,7 +182,9 @@
 			"enabled": true,
 			"hasDemo": true,
 			"hasDocumentation": true,
-			"icon": "📝"
+			"icon": "📝",
+			"demoLink": "https://decentelements.com/stylish-list-widget/",
+			"docsLinks": "https://decentelements.com/docs/stylish-list-widget/"
 		},
 		{
 			"id": "flip-box",
@@ -170,7 +194,9 @@
 			"enabled": true,
 			"hasDemo": true,
 			"hasDocumentation": true,
-			"icon": "🔄"
+			"icon": "🔄",
+			"demoLink": "https://decentelements.com/flip-box-widget/",
+			"docsLinks": "https://decentelements.com/docs/flip-box-widget/"
 		},
 		{
 			"id": "image-comparison",
@@ -180,7 +206,9 @@
 			"enabled": true,
 			"hasDemo": true,
 			"hasDocumentation": true,
-			"icon": "⚖️"
+			"icon": "⚖️",
+			"demoLink": "https://decentelements.com/image-comparison-widget/",
+			"docsLinks": "https://decentelements.com/docs/image-comparison-widget/"
 		},
 		{
 			"id": "hotspot-image",
@@ -190,7 +218,9 @@
 			"enabled": true,
 			"hasDemo": true,
 			"hasDocumentation": true,
-			"icon": "📍"
+			"icon": "📍",
+			"demoLink": "https://decentelements.com/hotspot-image-widget/",
+			"docsLinks": "https://decentelements.com/docs/hotspot-image-widget/"
 		},
 		{
 			"id": "lottie-animation",
@@ -200,7 +230,9 @@
 			"enabled": true,
 			"hasDemo": true,
 			"hasDocumentation": true,
-			"icon": "🎭"
+			"icon": "🎭",
+			"demoLink": "https://decentelements.com/lottie-animation-widget/",
+			"docsLinks": "https://decentelements.com/docs/lottie-animation-widget/"
 		},
 		{
 			"id": "timeline",
@@ -210,7 +242,9 @@
 			"enabled": true,
 			"hasDemo": true,
 			"hasDocumentation": true,
-			"icon": "⏰"
+			"icon": "⏰",
+			"demoLink": "https://decentelements.com/timeline-widget/",
+			"docsLinks": "https://decentelements.com/docs/timeline-widget/"
 		},
 		{
 			"id": "parallax",
@@ -220,7 +254,9 @@
 			"enabled": true,
 			"hasDemo": true,
 			"hasDocumentation": true,
-			"icon": "🌊"
+			"icon": "🌊",
+			"demoLink": "https://decentelements.com/parallax-widget/",
+			"docsLinks": "https://decentelements.com/docs/parallax-widget/"
 		},
 		{
 			"id": "particle",
@@ -230,7 +266,9 @@
 			"enabled": true,
 			"hasDemo": true,
 			"hasDocumentation": true,
-			"icon": "✨"
+			"icon": "✨",
+			"demoLink": "https://decentelements.com/particle-widget/",
+			"docsLinks": "https://decentelements.com/docs/particle-widget/"
 		},
 		{
 			"id": "background-switcher",
@@ -240,7 +278,9 @@
 			"enabled": false,
 			"hasDemo": true,
 			"hasDocumentation": true,
-			"icon": "🎨"
+			"icon": "🎨",
+			"demoLink": "https://decentelements.com/background-switcher-widget/",
+			"docsLinks": "https://decentelements.com/docs/background-switcher-widget/"
 		},
 		{
 			"id": "stacking-cards",
@@ -250,7 +290,9 @@
 			"enabled": false,
 			"hasDemo": true,
 			"hasDocumentation": true,
-			"icon": "🃏"
+			"icon": "🃏",
+			"demoLink": "https://decentelements.com/stacking-cards-widget/",
+			"docsLinks": "https://decentelements.com/docs/stacking-cards-widget/"
 		},
 		{
 			"id": "unfold-content",
@@ -260,7 +302,9 @@
 			"enabled": false,
 			"hasDemo": true,
 			"hasDocumentation": true,
-			"icon": "📂"
+			"icon": "📂",
+			"demoLink": "https://decentelements.com/unfold-content-widget/",
+			"docsLinks": "https://decentelements.com/docs/unfold-content-widget/"
 		},
 		{
 			"id": "funfact",
@@ -270,7 +314,9 @@
 			"enabled": true,
 			"hasDemo": true,
 			"hasDocumentation": true,
-			"icon": "🎯"
+			"icon": "🎯",
+			"demoLink": "https://decentelements.com/funfact-widget/",
+			"docsLinks": "https://decentelements.com/docs/funfact-widget/"
 		},
 		{
 			"id": "floating-animation",
@@ -280,7 +326,9 @@
 			"enabled": true,
 			"hasDemo": true,
 			"hasDocumentation": true,
-			"icon": "🎈"
+			"icon": "🎈",
+			"demoLink": "https://decentelements.com/floating-animation-widget/",
+			"docsLinks": "https://decentelements.com/docs/floating-animation-widget/"
 		}
 	]
 }

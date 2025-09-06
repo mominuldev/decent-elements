@@ -19,7 +19,7 @@ const Widgets = () => {
 	).replace(/\/$/, "");
 	const nonce = window.decentElements?.nonce || "";
 
-	console.log("API Configuration:", { apiBase, nonce });
+	// console.log("API Configuration:", { apiBase, nonce });
 
 	// Fetch widget settings from WordPress
 	useEffect(() => {
@@ -50,7 +50,6 @@ const Widgets = () => {
 							return widget;
 						}),
 					);
-					showSuccess("Widget settings loaded successfully!");
 				} else {
 					console.error("Failed to fetch widget settings");
 					showError(
@@ -68,12 +67,12 @@ const Widgets = () => {
 		};
 
 		fetchData();
-	}, [apiBase, nonce, showSuccess, showError]); // Add toast functions to dependencies
+	}, [apiBase, nonce, showError]); // Add toast functions to dependencies
 
 	const saveWidgetSettings = async (widgetSettings, showToast = false) => {
 		try {
 			setSaving(true);
-			console.log("Saving widget settings:", widgetSettings);
+			// console.log("Saving widget settings:", widgetSettings);
 
 			const response = await fetch(`${apiBase}/widgets`, {
 				method: "POST",
@@ -86,7 +85,7 @@ const Widgets = () => {
 
 			if (response.ok) {
 				const result = await response.json();
-				console.log("Widget settings saved successfully:", result);
+				// console.log("Widget settings saved successfully:", result);
 				if (showToast) {
 					showSuccess("Widget settings saved successfully!");
 				}
@@ -249,19 +248,19 @@ const Widgets = () => {
 	};
 
 	return (
-		<div className='flex min-h-screen bg-gray-50'>
+		<div className='flex gap-4 max-w-[1200px] mx-auto min-h-screen'>
 			{/* Sidebar */}
-			<div className='w-64 bg-white border-r border-gray-200 p-6'>
+			<div className='w-64 bg-slate-200 rounded-lg p-4'>
 				<div className='space-y-2'>
 					{widgetsData.categories.map((category) => (
 						<button
 							key={category.id}
 							onClick={() => setSelectedCategory(category.id)}
 							className={`
-                w-full text-left px-4 py-3 rounded-lg text-sm font-medium transition-colors
+                w-full text-left px-4 py-3 rounded-lg text-zinc-900 text-base !font-medium transition-colors
                 ${
 					selectedCategory === category.id
-						? "bg-blue-600 text-white"
+						? "bg-blue-600 !text-white"
 						: "text-gray-700 hover:bg-gray-100"
 				}
               `}
@@ -276,7 +275,7 @@ const Widgets = () => {
 			</div>
 
 			{/* Main Content */}
-			<div className='flex-1 p-6'>
+			<div className='flex-1'>
 				{loading ? (
 					<div className='flex items-center justify-center h-64'>
 						<div className='text-center'>
@@ -287,60 +286,66 @@ const Widgets = () => {
 				) : (
 					<>
 						{/* Header */}
-						<div className='mb-6'>
-							<div className='flex items-center justify-between mb-6'>
-								<h1 className='text-2xl font-bold text-gray-900'>
+						<div className='p-6 bg-white rounded-lg mb-1'>
+							<div className='flex items-center justify-between'>
+								<h1 className='!text-zinc-900 !text-xl !my-0'>
 									{getCategoryName(selectedCategory)}
 								</h1>
-								<div className='flex items-center space-x-4'>
-									<div className='relative'>
-										<input
-											type='text'
-											placeholder='Search...'
-											value={searchTerm}
-											onChange={(e) =>
-												setSearchTerm(e.target.value)
-											}
-											className='w-64 pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm'
-											disabled={saving}
-										/>
-										<div className='absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none'>
-											<svg
-												className='h-4 w-4 text-gray-400'
-												fill='none'
-												stroke='currentColor'
-												viewBox='0 0 24 24'
-											>
-												<path
-													strokeLinecap='round'
-													strokeLinejoin='round'
-													strokeWidth={2}
-													d='M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z'
-												/>
-											</svg>
-										</div>
-									</div>
-									<select
-										value={selectedCategory}
-										onChange={(e) =>
-											setSelectedCategory(e.target.value)
-										}
-										className='px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm'
-									>
-										{widgetsData.categories.map(
-											(category) => (
-												<option
-													key={category.id}
-													value={category.id}
+								<div className='flex items-center space-x-3'>
+									<div className='flex items-center rounded-lg border border-zinc-200 overflow-hidden'>
+										<div className='relative border-r !border-zinc-200'>
+											<input
+												type='text'
+												placeholder='Search...'
+												value={searchTerm}
+												onChange={(e) =>
+													setSearchTerm(
+														e.target.value,
+													)
+												}
+												className='min-[220px] !h-9 !bg-slate-100 !pl-8 !border-0 rounded-none focus:!border-transparent focus:!shadow-[none]'
+												disabled={saving}
+											/>
+											<div className='absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none'>
+												<svg
+													className='h-4 w-4 text-gray-400'
+													fill='none'
+													stroke='currentColor'
+													viewBox='0 0 24 24'
 												>
-													{category.name}
-												</option>
-											),
-										)}
-									</select>
-									<div className='flex items-center space-x-3'>
-										<span className='text-sm text-gray-700 font-medium'>
-											Enable All Widgets
+													<path
+														strokeLinecap='round'
+														strokeLinejoin='round'
+														strokeWidth={2}
+														d='M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z'
+													/>
+												</svg>
+											</div>
+										</div>
+										<select
+											value={selectedCategory}
+											onChange={(e) =>
+												setSelectedCategory(
+													e.target.value,
+												)
+											}
+											className='px-3 py-2 text-zinc-900 text-sm !border-0 focus:!text-zinc-900 hover:!text-zinc-900 focus:!border-transparent focus:!shadow-[none]'
+										>
+											{widgetsData.categories.map(
+												(category) => (
+													<option
+														key={category.id}
+														value={category.id}
+													>
+														{category.name}
+													</option>
+												),
+											)}
+										</select>
+									</div>
+									<div className='flex items-center space-x-3 rounded-lg border border-zinc-200 px-3 py-2'>
+										<span className='font-medium text-zinc-900 text-sm'>
+											Enable All Widget
 										</span>
 										<Switch
 											checked={enableAllWidgets}
@@ -357,12 +362,15 @@ const Widgets = () => {
 								// Show all categories with their widgets
 								Object.entries(groupedWidgets).map(
 									([categoryId, categoryWidgets]) => (
-										<div key={categoryId}>
-											<h2 className='text-lg font-semibold text-gray-900 mb-4'>
+										<div
+											className='bg-white rounded-lg mb-4 py-4 px-3.5'
+											key={categoryId}
+										>
+											<h2 className='text-lg font-semibold text-gray-900 mb-4 !mt-0'>
 												{getCategoryName(categoryId)}{" "}
 												Widgets
 											</h2>
-											<div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
+											<div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-1 bg-slate-100 rounded-lg p-1'>
 												{categoryWidgets.map(
 													(widget) => (
 														<WidgetCard
@@ -380,14 +388,20 @@ const Widgets = () => {
 								)
 							) : (
 								// Show only selected category widgets
-								<div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
-									{filteredWidgets.map((widget) => (
-										<WidgetCard
-											key={widget.id}
-											widget={widget}
-											onToggle={handleWidgetToggle}
-										/>
-									))}
+								<div className='bg-white rounded-lg mb-4 py-4 px-3.5'>
+									<h2 className='text-lg font-semibold text-gray-900 mb-4 !mt-0'>
+										{getCategoryName(selectedCategory)}{" "}
+										Widgets
+									</h2>
+									<div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-1 bg-slate-100 rounded-lg p-1'>
+										{filteredWidgets.map((widget) => (
+											<WidgetCard
+												key={widget.id}
+												widget={widget}
+												onToggle={handleWidgetToggle}
+											/>
+										))}
+									</div>
 								</div>
 							)}
 

@@ -12,7 +12,7 @@ function App() {
 		<ToastProvider>
 			<div>
 				<Navbar />
-				<main>
+				<main className='bg-[#EEEFF4]'>
 					<Routes>
 						<Route
 							path='/'
@@ -26,7 +26,7 @@ function App() {
 						<Route
 							path='/modules'
 							element={
-								<div className='container py-8 px-1'>
+								<div className='container py-8 px-3'>
 									<Modules />
 								</div>
 							}
