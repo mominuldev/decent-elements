@@ -57,17 +57,9 @@ export const ToastProvider = ({ children }) => {
 	return (
 		<ToastContext.Provider value={value}>
 			{children}
-			<div className='toast-container'>
-				{toasts.map((toast, index) => (
-					<div
-						key={toast.id}
-						style={{
-							position: "fixed",
-							top: `${20 + index * 80}px`,
-							right: "20px",
-							zIndex: 9999,
-						}}
-					>
+			<div className='fixed top-10 right-5 z-50 flex flex-col items-end space-y-2.5 pointer-events-none'>
+				{toasts.map((toast) => (
+					<div key={toast.id} className='pointer-events-auto'>
 						<Toast
 							message={toast.message}
 							type={toast.type}

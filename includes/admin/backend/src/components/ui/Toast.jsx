@@ -14,7 +14,7 @@ const Toast = ({ message, type = "success", duration = 3000, onClose }) => {
 
 	const getToastStyles = () => {
 		const baseStyles =
-			"fixed top-8 right-2 z-50 px-3 py-4 rounded-lg shadow-lg flex items-center space-x-2 transition-all duration-300 transform";
+			"w-max px-3 py-4 rounded-lg shadow-lg flex items-center space-x-2 transition-all duration-300 transform";
 
 		const typeStyles = {
 			success: "bg-white bg-green-500",
