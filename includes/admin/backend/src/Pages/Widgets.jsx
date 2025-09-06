@@ -250,18 +250,18 @@ const Widgets = () => {
 	return (
 		<div className='flex gap-4 max-w-[1200px] mx-auto min-h-screen'>
 			{/* Sidebar */}
-			<div className='w-64 bg-slate-200 rounded-lg p-4'>
+			<div className='w-54 bg-slate-200 rounded-lg p-4'>
 				<div className='space-y-2'>
 					{widgetsData.categories.map((category) => (
 						<button
 							key={category.id}
 							onClick={() => setSelectedCategory(category.id)}
 							className={`
-                w-full text-left px-4 py-3 rounded-lg text-zinc-900 text-base !font-medium transition-colors
+                w-full text-left px-4 py-2.5 my-0 rounded-lg text-zinc-900 text-base !font-medium transition-colors cursor-pointer
                 ${
 					selectedCategory === category.id
 						? "bg-blue-600 !text-white"
-						: "text-gray-700 hover:bg-gray-100"
+						: "hover:bg-indigo-100 hover:text-blue-600"
 				}
               `}
 						>
