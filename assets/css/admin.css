@@ -1,3 +1,9 @@
 .toplevel_page_decent_elements #wpcontent {
 	padding-left: 0 !important;
 }
+
+.toplevel_page_decent_elements img {
+	width: 18px;
+	width: auto;
+	margin-left: 10px;
+}
