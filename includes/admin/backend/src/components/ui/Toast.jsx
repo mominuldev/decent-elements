@@ -14,11 +14,11 @@ const Toast = ({ message, type = "success", duration = 3000, onClose }) => {
 
 	const getToastStyles = () => {
 		const baseStyles =
-			"fixed top-4 right-4 z-50 px-6 py-4 rounded-lg shadow-lg flex items-center space-x-3 transition-all duration-300 transform";
+			"fixed top-8 right-2 z-50 px-3 py-4 rounded-lg shadow-lg flex items-center space-x-2 transition-all duration-300 transform";
 
 		const typeStyles = {
-			success: "bg-green-500 text-white",
-			error: "bg-red-500 text-white",
+			success: "bg-white bg-green-500",
+			error: "text-red-500 bg-white",
 			warning: "bg-yellow-500 text-white",
 			info: "bg-blue-500 text-white",
 		};
@@ -34,9 +34,9 @@ const Toast = ({ message, type = "success", duration = 3000, onClose }) => {
 		const icons = {
 			success: (
 				<svg
-					className='w-5 h-5'
+					className='w-5 h-5 p-0.5 text-white bg-green-500 rounded-full text-sm'
 					fill='none'
-					stroke='currentColor'
+					stroke='white'
 					viewBox='0 0 24 24'
 				>
 					<path
@@ -49,9 +49,9 @@ const Toast = ({ message, type = "success", duration = 3000, onClose }) => {
 			),
 			error: (
 				<svg
-					className='w-5 h-5'
+					className='w-5 h-5 p-0.5 bg-red-500 text-white rounded-full'
 					fill='none'
-					stroke='currentColor'
+					stroke='white'
 					viewBox='0 0 24 24'
 				>
 					<path
@@ -64,9 +64,9 @@ const Toast = ({ message, type = "success", duration = 3000, onClose }) => {
 			),
 			warning: (
 				<svg
-					className='w-5 h-5'
+					className='w-5 h-5 p-0.5 bg-yellow-500 text-white rounded-full'
 					fill='none'
-					stroke='currentColor'
+					stroke='white'
 					viewBox='0 0 24 24'
 				>
 					<path
@@ -79,9 +79,9 @@ const Toast = ({ message, type = "success", duration = 3000, onClose }) => {
 			),
 			info: (
 				<svg
-					className='w-5 h-5'
+					className='w-5 h-5 bg-blue-500 text-white rounded-full'
 					fill='none'
-					stroke='currentColor'
+					stroke='white'
 					viewBox='0 0 24 24'
 				>
 					<path
@@ -97,18 +97,28 @@ const Toast = ({ message, type = "success", duration = 3000, onClose }) => {
 		return icons[type];
 	};
 
+	const getCloseButtonStyles = () => {
+		const styles = {
+			success: "text-green-500 hover:text-green-700",
+			error: "text-red-500 hover:text-red-700",
+			warning: "text-white hover:text-gray-200",
+			info: "text-white hover:text-gray-200",
+		};
+		return styles[type];
+	};
+
 	return (
 		<div className={getToastStyles()}>
 			<div className='flex-shrink-0'>{getIcon()}</div>
 			<div className='flex-1'>
-				<p className='text-sm font-medium'>{message}</p>
+				<p className='text-sm font-medium !my-0'>{message}</p>
 			</div>
 			<button
 				onClick={() => {
 					setIsVisible(false);
 					setTimeout(onClose, 300);
 				}}
-				className='flex-shrink-0 ml-2 text-white hover:text-gray-200 transition-colors'
+				className={`flex-shrink-0 ml-2 transition-colors cursor-pointer ${getCloseButtonStyles()}`}
 			>
 				<svg
 					className='w-4 h-4'
