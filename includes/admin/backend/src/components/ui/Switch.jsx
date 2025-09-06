@@ -40,7 +40,7 @@ const Switch = ({ checked, onChange, disabled = false, size = "small" }) => {
 				className={`
           ${thumbSizeClasses[size]}
           ${translateClasses[size]}
-          pointer-events-none inline-block rounded-full bg-white shadow 
+          pointer-events-none inline-block bg-gradient-to-b from-white to-zinc-200 rounded-full shadow-[0px_4px_6px_-2px_rgba(23,25,31,0.40)] border border-white 
           transform ring-0 transition ease-in-out duration-200
         `}
 			/>

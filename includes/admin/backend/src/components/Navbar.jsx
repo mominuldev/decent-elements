@@ -1,22 +1,29 @@
-import Logo from "/logo.png";
 import ProIcon from "/crown-icon.svg";
 import PromotIcon from "/mike-icon.svg";
 import Menu from "./Menu";
 
 const Navbar = () => {
+	// Get the plugin base URL from WordPress
+	const baseUrl = window.decentElements?.baseUrl || "";
+	const logoUrl = `${baseUrl}includes/admin/assets/js/decent-logo.svg`;
+
 	return (
-		<div className='bg-white p-2 mb-4 shadow-[0px_4px_6px_-4px_rgba(23,25,31,0.10)]'>
+		<div className='bg-white h-[50px] mb-4 shadow-[0px_4px_6px_-4px_rgba(23,25,31,0.10)]'>
 			<div className='container max-w-[1200px] mx-auto'>
 				<div className='flex items-center justify-between gap-2 '>
 					<div className='flex items-center'>
-						<img src={Logo} alt='Logo' className='' />
+						<img
+							src={logoUrl}
+							alt='Logo'
+							className='max-w-[150px]'
+						/>
 						<Menu />
 					</div>
 
 					<div className='flex items-center gap-4'>
-						<p className='text-zinc-600 text-sm pr-3 border-r border-gray-300 border-solid '>
+						<p className='text-zinc-600 text-sm pr-3 border-r border-gray-300 border-solid !my-0'>
 							Free Version:{" "}
-							<span className='text-zinc-900 text-sm font-medium bg-slate-100 rounded-md px-1 py-[5px]'>
+							<span className='text-zinc-900 text-sm font-medium bg-slate-100 rounded-sm px-1 py-[2px]'>
 								1.0.0
 							</span>
 						</p>
