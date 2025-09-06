@@ -36,26 +36,7 @@ class Admin_Panel_API
 				'permission_callback' => array($this, 'get_permission')
 			));
 
-			// Posts Example
-			register_rest_route(DECENT_ELEMENTS_REST_API_ROUTE, '/posts/(?P<page>\d+)', array(
-				'methods'             => 'GET',
-				'callback'            => array($this, 'get_posts'),
-				'args'                => array(
-					'page' => array(
-						'validate_callback' => function ($param, $request, $key) {
-							return is_numeric($param);
-						}
-					),
-				),
-				'permission_callback' => array($this, 'get_permission')
-			));
 
-			// Licence example
-			register_rest_route(DECENT_ELEMENTS_REST_API_ROUTE, '/license/', array(
-				'methods'             => 'GET',
-				'callback'            => array($this, 'get_license'),
-				'permission_callback' => array($this, 'get_permission')
-			));
 		});
 	}
 
