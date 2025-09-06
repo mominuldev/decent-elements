@@ -39,9 +39,9 @@ class Admin_Assets
 
 				?>
 <script>
-var pluginName = {
-	apiNonce: '<?php echo $apiNonce; ?>',
-	root: '<?php echo $root; ?>',
+window.decentElements = {
+	nonce: '<?php echo $apiNonce; ?>',
+	apiUrl: '<?php echo $root; ?>',
 	baseUrl: '<?php echo $baseUrl; ?>',
 }
 </script>
@@ -59,10 +59,10 @@ window.__vite_plugin_react_preamble_installed__ = true
 				wp_enqueue_script('decent-elements-backend', DECENT_ELEMENTS_URL . 'includes/admin/assets/js/index.js', array('wp-i18n'), DECENT_ELEMENTS_VERSION, true);
 				wp_localize_script(
 					'decent-elements-backend',
-					'pluginName',
+					'decentElements',
 					array(
-						'apiNonce'     => $apiNonce,
-						'root'          => $root,
+						'nonce'     => $apiNonce,
+						'apiUrl'    => $root,
 						'baseUrl'   => $baseUrl,
 					)
 				);

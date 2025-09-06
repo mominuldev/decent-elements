@@ -36,6 +36,17 @@ class Admin_Panel_API
 				'permission_callback' => array($this, 'get_permission')
 			));
 
+			// Widget Settings
+			register_rest_route(DECENT_ELEMENTS_REST_API_ROUTE, '/widgets/', array(
+				'methods'             => 'GET',
+				'callback'            => array($this, 'get_widget_settings'),
+				'permission_callback' => array($this, 'get_permission')
+			));
+			register_rest_route(DECENT_ELEMENTS_REST_API_ROUTE, '/widgets/', array(
+				'methods'             => 'POST',
+				'callback'            => array($this, 'set_widget_settings'),
+				'permission_callback' => array($this, 'get_permission')
+			));
 
 		});
 	}
@@ -124,6 +135,76 @@ class Admin_Panel_API
 		return new WP_REST_Response($data, 200);
 	}
 
+	/**
+	 * Fetching widget settings
+	 * @since 1.0.0
+	 */
+	public function get_widget_settings()
+	{
+		error_log('Get widget settings API called');
+		
+		$widget_manager = Decent_Elements_Widget_Manager::instance();
+		$available_widgets = $widget_manager->get_available_widgets();
+		$current_settings = $widget_manager->get_widget_settings();
+
+		error_log('Available widgets: ' . print_r($available_widgets, true));
+		error_log('Current settings: ' . print_r($current_settings, true));
+
+		$result = [];
+		foreach ($available_widgets as $widget_id => $widget_data) {
+			$result[$widget_id] = [
+				'name' => $widget_data['name'],
+				'enabled' => isset($current_settings[$widget_id]) ? (bool) $current_settings[$widget_id] : $widget_data['default'],
+				'default' => $widget_data['default']
+			];
+		}
+
+		error_log('Result: ' . print_r($result, true));
+		return new WP_REST_Response($result, 200);
+	}
+
+	/**
+	 * Saving widget settings
+	 * @since 1.0.0
+	 */
+	public function set_widget_settings($data)
+	{
+		error_log('Widget settings API called');
+		
+		$widget_manager = Decent_Elements_Widget_Manager::instance();
+		$available_widgets = $widget_manager->get_available_widgets();
+		
+		$request_data = $data->get_params();
+		error_log('Request data: ' . print_r($request_data, true));
+		
+		$settings = [];
+
+		// Validate and sanitize the data
+		foreach ($request_data as $widget_id => $enabled) {
+			if (array_key_exists($widget_id, $available_widgets)) {
+				$settings[$widget_id] = (bool) $enabled;
+			}
+		}
+
+		error_log('Processed settings: ' . print_r($settings, true));
+
+		// Save the settings
+		$success = $widget_manager->update_widget_settings($settings);
+
+		if ($success) {
+			return new WP_REST_Response([
+				'success' => true,
+				'message' => 'Widget settings saved successfully',
+				'data' => $settings
+			], 200);
+		} else {
+			return new WP_REST_Response([
+				'success' => false,
+				'message' => 'Failed to save widget settings'
+			], 500);
+		}
+	}
+
 	/*
 		Fetching posts example. You would have this in separate class most probably.
 	*/
@@ -174,11 +255,9 @@ class Admin_Panel_API
 	 **/
 	public function get_permission()
 	{
-		if (current_user_can('administrator') || current_user_can('manage_woocommerce')) {
-			return true;
-		} else {
-			return false;
-		}
+		$can_access = current_user_can('administrator') || current_user_can('manage_woocommerce');
+		error_log('Permission check: ' . ($can_access ? 'ALLOWED' : 'DENIED') . ' for user ID: ' . get_current_user_id());
+		return $can_access;
 	}
 
 	/**

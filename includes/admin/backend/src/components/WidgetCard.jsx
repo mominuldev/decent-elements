@@ -39,7 +39,10 @@ const WidgetCard = ({ widget, onToggle }) => {
 				</div>
 				<Switch
 					checked={widget.enabled}
-					onChange={(checked) => onToggle(widget.id, checked)}
+					onChange={(checked) => {
+						console.log(`Toggle widget ${widget.id} to ${checked}`);
+						onToggle(widget.id, checked);
+					}}
 					disabled={widget.status === "pro" && !widget.enabled}
 				/>
 			</div>
