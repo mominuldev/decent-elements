@@ -1,0 +1,286 @@
+{
+	"categories": [
+		{
+			"id": "all",
+			"name": "All Widgets",
+			"icon": "⚡"
+		},
+		{
+			"id": "core",
+			"name": "Core UI / Content",
+			"icon": "🎯"
+		},
+		{
+			"id": "creative",
+			"name": "Creative",
+			"icon": "🎨"
+		},
+		{
+			"id": "content-display",
+			"name": "Content Display",
+			"icon": "📄"
+		},
+		{
+			"id": "navigation",
+			"name": "Navigation",
+			"icon": "🧭"
+		},
+		{
+			"id": "woocommerce",
+			"name": "WooCommerce",
+			"icon": "🛒"
+		},
+		{
+			"id": "marketing",
+			"name": "Marketing",
+			"icon": "📈"
+		},
+		{
+			"id": "media-content",
+			"name": "Media Content",
+			"icon": "📸"
+		}
+	],
+	"widgets": [
+		{
+			"id": "heading",
+			"name": "Heading",
+			"category": "core",
+			"status": "new",
+			"enabled": true,
+			"hasDemo": true,
+			"hasDocumentation": true,
+			"icon": "📝"
+		},
+		{
+			"id": "dual-color-heading",
+			"name": "Dual Color Heading",
+			"category": "core",
+			"status": "update",
+			"enabled": true,
+			"hasDemo": true,
+			"hasDocumentation": true,
+			"icon": "🎨"
+		},
+		{
+			"id": "image-box",
+			"name": "Image Box",
+			"category": "core",
+			"status": "freemium",
+			"enabled": true,
+			"hasDemo": true,
+			"hasDocumentation": true,
+			"icon": "🖼️"
+		},
+		{
+			"id": "icon-box",
+			"name": "Icon Box",
+			"category": "core",
+			"status": "normal",
+			"enabled": true,
+			"hasDemo": true,
+			"hasDocumentation": true,
+			"icon": "📦"
+		},
+		{
+			"id": "info-box",
+			"name": "Info Box",
+			"category": "core",
+			"status": "normal",
+			"enabled": true,
+			"hasDemo": true,
+			"hasDocumentation": true,
+			"icon": "ℹ️"
+		},
+		{
+			"id": "image-gallery",
+			"name": "Image Gallery",
+			"category": "core",
+			"status": "normal",
+			"enabled": true,
+			"hasDemo": true,
+			"hasDocumentation": true,
+			"icon": "🖼️"
+		},
+		{
+			"id": "accordion",
+			"name": "Accordion",
+			"category": "core",
+			"status": "freemium",
+			"enabled": true,
+			"hasDemo": true,
+			"hasDocumentation": true,
+			"icon": "📋"
+		},
+		{
+			"id": "image-accordion",
+			"name": "Image Accordion",
+			"category": "core",
+			"status": "pro",
+			"enabled": false,
+			"hasDemo": true,
+			"hasDocumentation": true,
+			"icon": "🖼️"
+		},
+		{
+			"id": "faq",
+			"name": "FAQ",
+			"category": "core",
+			"status": "pro",
+			"enabled": false,
+			"hasDemo": true,
+			"hasDocumentation": true,
+			"icon": "❓"
+		},
+		{
+			"id": "toggle-content",
+			"name": "Toggle Content",
+			"category": "core",
+			"status": "pro",
+			"enabled": false,
+			"hasDemo": true,
+			"hasDocumentation": true,
+			"icon": "🔄"
+		},
+		{
+			"id": "button",
+			"name": "Button",
+			"category": "core",
+			"status": "new",
+			"enabled": true,
+			"hasDemo": true,
+			"hasDocumentation": true,
+			"icon": "🔘"
+		},
+		{
+			"id": "stylish-list",
+			"name": "Stylish List",
+			"category": "core",
+			"status": "normal",
+			"enabled": true,
+			"hasDemo": true,
+			"hasDocumentation": true,
+			"icon": "📝"
+		},
+		{
+			"id": "flip-box",
+			"name": "Flip Box",
+			"category": "creative",
+			"status": "update",
+			"enabled": true,
+			"hasDemo": true,
+			"hasDocumentation": true,
+			"icon": "🔄"
+		},
+		{
+			"id": "image-comparison",
+			"name": "Image Comparison",
+			"category": "creative",
+			"status": "normal",
+			"enabled": true,
+			"hasDemo": true,
+			"hasDocumentation": true,
+			"icon": "⚖️"
+		},
+		{
+			"id": "hotspot-image",
+			"name": "Hotspot Image",
+			"category": "creative",
+			"status": "normal",
+			"enabled": true,
+			"hasDemo": true,
+			"hasDocumentation": true,
+			"icon": "📍"
+		},
+		{
+			"id": "lottie-animation",
+			"name": "Lottie Animation",
+			"category": "creative",
+			"status": "normal",
+			"enabled": true,
+			"hasDemo": true,
+			"hasDocumentation": true,
+			"icon": "🎭"
+		},
+		{
+			"id": "timeline",
+			"name": "Timeline",
+			"category": "creative",
+			"status": "normal",
+			"enabled": true,
+			"hasDemo": true,
+			"hasDocumentation": true,
+			"icon": "⏰"
+		},
+		{
+			"id": "parallax",
+			"name": "Parallax",
+			"category": "creative",
+			"status": "pro",
+			"enabled": true,
+			"hasDemo": true,
+			"hasDocumentation": true,
+			"icon": "🌊"
+		},
+		{
+			"id": "particle",
+			"name": "Particle",
+			"category": "creative",
+			"status": "new",
+			"enabled": true,
+			"hasDemo": true,
+			"hasDocumentation": true,
+			"icon": "✨"
+		},
+		{
+			"id": "background-switcher",
+			"name": "Background Switcher",
+			"category": "creative",
+			"status": "pro",
+			"enabled": false,
+			"hasDemo": true,
+			"hasDocumentation": true,
+			"icon": "🎨"
+		},
+		{
+			"id": "stacking-cards",
+			"name": "Stacking Cards",
+			"category": "creative",
+			"status": "pro",
+			"enabled": false,
+			"hasDemo": true,
+			"hasDocumentation": true,
+			"icon": "🃏"
+		},
+		{
+			"id": "unfold-content",
+			"name": "Unfold Content",
+			"category": "creative",
+			"status": "new",
+			"enabled": false,
+			"hasDemo": true,
+			"hasDocumentation": true,
+			"icon": "📂"
+		},
+		{
+			"id": "funfact",
+			"name": "Funfact",
+			"category": "creative",
+			"status": "new",
+			"enabled": true,
+			"hasDemo": true,
+			"hasDocumentation": true,
+			"icon": "🎯"
+		},
+		{
+			"id": "floating-animation",
+			"name": "Floating Animation",
+			"category": "creative",
+			"status": "normal",
+			"enabled": true,
+			"hasDemo": true,
+			"hasDocumentation": true,
+			"icon": "🎈"
+		}
+	]
+}
