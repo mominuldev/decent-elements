@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useState, useMemo, useEffect, useCallback } from "react";
 import WidgetCard from "../components/WidgetCard";
 import Switch from "../components/ui/Switch";
 import widgetsData from "../data/widgets.json";
@@ -11,7 +11,8 @@ const Widgets = () => {
 	const [widgets, setWidgets] = useState(widgetsData.widgets);
 	const [loading, setLoading] = useState(true);
 	const [saving, setSaving] = useState(false);
-	const { showSuccess, showError, showWarning } = useToast();
+	const [fadeIn, setFadeIn] = useState(false);
+	const { showSuccess, showError } = useToast();
 
 	// WordPress REST API base URL
 	const apiBase = (
@@ -19,55 +20,68 @@ const Widgets = () => {
 	).replace(/\/$/, "");
 	const nonce = window.decentElements?.nonce || "";
 
-	// console.log("API Configuration:", { apiBase, nonce });
-
-	// Fetch widget settings from WordPress
+	// Start fade in animation after component mounts
 	useEffect(() => {
-		const fetchData = async () => {
-			try {
-				setLoading(true);
-				const response = await fetch(`${apiBase}/widgets`, {
-					method: "GET",
-					headers: {
-						"Content-Type": "application/json",
-						"X-WP-Nonce": nonce,
-					},
+		const timer = setTimeout(() => setFadeIn(true), 50);
+		return () => clearTimeout(timer);
+	}, []);
+
+	// Optimized fetch function with timeout
+	const fetchData = useCallback(async () => {
+		try {
+			setLoading(true);
+
+			// Add timeout to prevent hanging
+			const controller = new AbortController();
+			const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+
+			const response = await fetch(`${apiBase}/widgets`, {
+				method: "GET",
+				headers: {
+					"Content-Type": "application/json",
+					"X-WP-Nonce": nonce,
+				},
+				signal: controller.signal,
+			});
+
+			clearTimeout(timeoutId);
+
+			if (response.ok) {
+				const data = await response.json();
+
+				// Batch update widgets for better performance
+				setWidgets((prevWidgets) => {
+					const updatedWidgets = prevWidgets.map((widget) => {
+						const backendWidget = data[widget.id];
+						return backendWidget
+							? { ...widget, enabled: backendWidget.enabled }
+							: widget;
+					});
+					return updatedWidgets;
 				});
-
-				if (response.ok) {
-					const data = await response.json();
-
-					// Update widgets with backend data
-					setWidgets((prevWidgets) =>
-						prevWidgets.map((widget) => {
-							const backendWidget = data[widget.id];
-							if (backendWidget) {
-								return {
-									...widget,
-									enabled: backendWidget.enabled,
-								};
-							}
-							return widget;
-						}),
-					);
-				} else {
-					console.error("Failed to fetch widget settings");
-					showError(
-						"Failed to load widget settings. Please try again.",
-					);
-				}
-			} catch (error) {
+			} else {
+				console.error("Failed to fetch widget settings");
+				showError("Failed to load widget settings. Please try again.");
+			}
+		} catch (error) {
+			if (error.name === "AbortError") {
+				console.error("Request timeout");
+				showError("Request timeout. Please try again.");
+			} else {
 				console.error("Error fetching widget settings:", error);
 				showError(
 					"Error connecting to server. Please check your connection.",
 				);
-			} finally {
-				setLoading(false);
 			}
-		};
+		} finally {
+			setLoading(false);
+		}
+	}, [apiBase, nonce, showError]);
 
+	// Fetch widget settings from WordPress
+	useEffect(() => {
 		fetchData();
-	}, [apiBase, nonce, showError]); // Add toast functions to dependencies
+	}, [fetchData]);
 
 	const saveWidgetSettings = async (widgetSettings, showToast = false) => {
 		try {
@@ -84,7 +98,7 @@ const Widgets = () => {
 			});
 
 			if (response.ok) {
-				const result = await response.json();
+				await response.json(); // Just consume the response
 				// console.log("Widget settings saved successfully:", result);
 				if (showToast) {
 					showSuccess("Widget settings saved successfully!");
@@ -153,13 +167,14 @@ const Widgets = () => {
 		return groups;
 	}, [filteredWidgets]);
 
-	// Get category name by id
-	const getCategoryName = (categoryId) => {
-		const category = widgetsData.categories.find(
-			(cat) => cat.id === categoryId,
-		);
-		return category ? category.name : categoryId;
-	};
+	// Get category name by id - memoized for performance
+	const getCategoryName = useMemo(() => {
+		const categoryMap = {};
+		widgetsData.categories.forEach((cat) => {
+			categoryMap[cat.id] = cat.name;
+		});
+		return (categoryId) => categoryMap[categoryId] || categoryId;
+	}, []);
 
 	// Handle widget toggle
 	const handleWidgetToggle = async (widgetId, enabled) => {
@@ -248,7 +263,11 @@ const Widgets = () => {
 	};
 
 	return (
-		<div className='flex gap-4 max-w-[1200px] mx-auto min-h-screen'>
+		<div
+			className={`flex gap-4 max-w-[1200px] mx-auto min-h-screen transition-opacity duration-500 ${
+				fadeIn ? "opacity-100" : "opacity-0"
+			}`}
+		>
 			{/* Sidebar */}
 			<div className='w-54 bg-slate-200 rounded-lg p-4'>
 				<div className='space-y-2'>

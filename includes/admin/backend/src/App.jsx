@@ -6,6 +6,7 @@ import Widgets from "@/pages/Widgets";
 import Modules from "@/pages/Modules";
 import Settings from "@/pages/Settings";
 import { ToastProvider } from "@/components/ui/ToastProvider";
+import PageTransition from "@/components/PageTransition";
 
 function App() {
 	return (
@@ -13,33 +14,35 @@ function App() {
 			<div>
 				<Navbar />
 				<main className='bg-[#EEEFF4]'>
-					<Routes>
-						<Route
-							path='/'
-							element={
-								<div className='container py-8 px-1'>
-									<General />
-								</div>
-							}
-						/>
-						<Route path='/widgets' element={<Widgets />} />
-						<Route
-							path='/modules'
-							element={
-								<div className='container py-8 px-3'>
-									<Modules />
-								</div>
-							}
-						/>
-						<Route
-							path='/settings'
-							element={
-								<div className='container py-8 px-1'>
-									<Settings />
-								</div>
-							}
-						/>
-					</Routes>
+					<PageTransition>
+						<Routes>
+							<Route
+								path='/'
+								element={
+									<div className='container py-8 px-1'>
+										<General />
+									</div>
+								}
+							/>
+							<Route path='/widgets' element={<Widgets />} />
+							<Route
+								path='/modules'
+								element={
+									<div className='container py-8 px-3'>
+										<Modules />
+									</div>
+								}
+							/>
+							<Route
+								path='/settings'
+								element={
+									<div className='container py-8 px-1'>
+										<Settings />
+									</div>
+								}
+							/>
+						</Routes>
+					</PageTransition>
 				</main>
 			</div>
 		</ToastProvider>
