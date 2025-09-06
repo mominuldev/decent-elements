@@ -1,4 +1,3 @@
-import React from "react";
 import Switch from "./ui/Switch";
 import { Link } from "react-router";
 
@@ -7,7 +6,7 @@ const WidgetCard = ({ widget, onToggle }) => {
 		const badges = {
 			new: {
 				text: "NEW",
-				color: "px-2 py-[5px] bg-blue-500/10 inline-flex justify-center text-blue-500 text-xs font-semibold  uppercase",
+				color: " bg-blue-500/10 inline-flex justify-center text-blue-500 text-xs font-semibold uppercase",
 			},
 			update: { text: "UPDATE", color: "bg-green-600/10 text-green-600" },
 			freemium: {
@@ -23,7 +22,7 @@ const WidgetCard = ({ widget, onToggle }) => {
 
 		return (
 			<span
-				className={`${badge.color} px-1.5 py-1 text-xs font-semibold uppercase rounded-3xl leading-2`}
+				className={`${badge.color} px-2 py-[5px] text-xs font-semibold uppercase rounded-3xl leading-2`}
 			>
 				{badge.text}
 			</span>
@@ -31,7 +30,7 @@ const WidgetCard = ({ widget, onToggle }) => {
 	};
 
 	return (
-		<div className='bg-white rounded-lg border border-gray-200 p-4 hover:shadow-md transition-shadow duration-200 relative'>
+		<div className='bg-white rounded-md p-4 relative transition duration-300 ease-in-out hover:shadow-[0px_14px_20px_-10px_rgba(23,25,31,0.16)] hover:outline hover:outline-1 hover:outline-zinc-200 transition-shadow duration-200'>
 			<div className='flex items-center justify-between mb-2'>
 				<div className='text-xl'>{widget.icon}</div>
 				{/* Widget Icon and Toggle */}

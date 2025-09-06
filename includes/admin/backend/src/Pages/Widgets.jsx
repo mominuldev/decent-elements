@@ -1,8 +1,21 @@
-import React, { useState, useMemo, useEffect, useCallback } from "react";
+import React, {
+	useState,
+	useMemo,
+	useEffect,
+	useCallback,
+	useRef,
+} from "react";
 import WidgetCard from "../components/WidgetCard";
 import Switch from "../components/ui/Switch";
 import widgetsData from "../data/widgets.json";
 import { useToast } from "../hooks/useToast";
+import {
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from "@/components/ui/select";
 
 const Widgets = () => {
 	const [searchTerm, setSearchTerm] = useState("");
@@ -12,6 +25,26 @@ const Widgets = () => {
 	const [loading, setLoading] = useState(true);
 	const [saving, setSaving] = useState(false);
 	const [fadeIn, setFadeIn] = useState(false);
+	const [gridFade, setGridFade] = useState(true);
+	const [displayedCategory, setDisplayedCategory] =
+		useState(selectedCategory);
+	const [displayedSearchTerm, setDisplayedSearchTerm] = useState(searchTerm);
+
+	// Interactive fade-out, update, fade-in for widgets grid
+	useEffect(() => {
+		if (
+			displayedCategory !== selectedCategory ||
+			displayedSearchTerm !== searchTerm
+		) {
+			setGridFade(false); // fade out
+			const timeout = setTimeout(() => {
+				setDisplayedCategory(selectedCategory);
+				setDisplayedSearchTerm(searchTerm);
+				setGridFade(true); // fade in
+			}, 350); // match fade duration
+			return () => clearTimeout(timeout);
+		}
+	}, [selectedCategory, searchTerm, displayedCategory, displayedSearchTerm]);
 	const { showSuccess, showError } = useToast();
 
 	// WordPress REST API base URL
@@ -132,26 +165,28 @@ const Widgets = () => {
 		}
 	};
 
-	// Filter widgets based on search and category
+	// Filter widgets based on displayed search and category (for animation)
 	const filteredWidgets = useMemo(() => {
 		let filtered = widgets;
 
 		// Filter by category
-		if (selectedCategory !== "all") {
+		if (displayedCategory !== "all") {
 			filtered = filtered.filter(
-				(widget) => widget.category === selectedCategory,
+				(widget) => widget.category === displayedCategory,
 			);
 		}
 
 		// Filter by search term
-		if (searchTerm) {
+		if (displayedSearchTerm) {
 			filtered = filtered.filter((widget) =>
-				widget.name.toLowerCase().includes(searchTerm.toLowerCase()),
+				widget.name
+					.toLowerCase()
+					.includes(displayedSearchTerm.toLowerCase()),
 			);
 		}
 
 		return filtered;
-	}, [widgets, selectedCategory, searchTerm]);
+	}, [widgets, displayedCategory, displayedSearchTerm]);
 
 	// Group widgets by category for display
 	const groupedWidgets = useMemo(() => {
@@ -264,12 +299,12 @@ const Widgets = () => {
 
 	return (
 		<div
-			className={`flex gap-4 max-w-[1200px] mx-auto min-h-screen transition-opacity duration-500 ${
+			className={`flex gap-4 max-w-[1200px] mx-auto min-h-screen transition-opacity duration-200 ${
 				fadeIn ? "opacity-100" : "opacity-0"
 			}`}
 		>
 			{/* Sidebar */}
-			<div className='w-54 bg-slate-200 rounded-lg p-4'>
+			<div className='w-54 bg-slate-200 rounded-lg p-4 sticky top-[72px] h-screen self-start'>
 				<div className='space-y-2'>
 					{widgetsData.categories.map((category) => (
 						<button
@@ -280,7 +315,7 @@ const Widgets = () => {
                 ${
 					selectedCategory === category.id
 						? "bg-blue-600 !text-white"
-						: "hover:bg-indigo-100 hover:text-blue-600"
+						: "hover:bg-[#DBE3FF] hover:text-blue-600"
 				}
               `}
 						>
@@ -322,7 +357,7 @@ const Widgets = () => {
 														e.target.value,
 													)
 												}
-												className='min-[220px] !h-9 !bg-slate-100 !pl-8 !border-0 rounded-none focus:!border-transparent focus:!shadow-[none]'
+												className='min-[220px] !h-9 !bg-slate-100 !pl-8 !rounded-tl-lg !rounded-bl-lg !border-transparent rounded-none transition duration-300 ease-in-out  focus:!bg-white focus:!rounded-tl-lg focus:!rounded-bl-lg focus:!shadow-[0px_0px_0px_3px_rgba(49,84,243,0.10)] border focus:!border-indigo-400'
 												disabled={saving}
 											/>
 											<div className='absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none'>
@@ -341,26 +376,28 @@ const Widgets = () => {
 												</svg>
 											</div>
 										</div>
-										<select
+
+										<Select
 											value={selectedCategory}
-											onChange={(e) =>
-												setSelectedCategory(
-													e.target.value,
-												)
-											}
-											className='px-3 py-2 text-zinc-900 text-sm !border-0 focus:!text-zinc-900 hover:!text-zinc-900 focus:!border-transparent focus:!shadow-[none]'
+											onValueChange={setSelectedCategory}
 										>
-											{widgetsData.categories.map(
-												(category) => (
-													<option
-														key={category.id}
-														value={category.id}
-													>
-														{category.name}
-													</option>
-												),
-											)}
-										</select>
+											<SelectTrigger className='w-[180px] w-32 h-24 bg-white text-zinc-900 text-sm !border-transparent rounded-none  rounded-tr-lg rounded-br-lg focus:!shadow-[0px_0px_0px_3px_rgba(49,84,243,0.10)] focus:border focus:!border-indigo-400'>
+												<SelectValue placeholder='All Widgets' />
+											</SelectTrigger>
+											<SelectContent className='bg-white rounded-lg shadow-[0px_14px_20px_-10px_rgba(23,25,31,0.16)] border border-zinc-20'>
+												{widgetsData.categories.map(
+													(category) => (
+														<SelectItem
+															key={category.id}
+															value={category.id}
+															className='text-zinc-900 text-sm'
+														>
+															{category.name}
+														</SelectItem>
+													),
+												)}
+											</SelectContent>
+										</Select>
 									</div>
 									<div className='flex items-center space-x-3 rounded-lg border border-zinc-200 px-3 py-2'>
 										<span className='font-medium text-zinc-900 text-sm'>
@@ -376,7 +413,14 @@ const Widgets = () => {
 						</div>
 
 						{/* Widgets Grid */}
-						<div className='space-y-8'>
+						<div
+							className={`space-y-8 transition-opacity duration-700 ease-in-out ${
+								gridFade ? "opacity-100" : "opacity-0"
+							}`}
+							style={{
+								pointerEvents: gridFade ? "auto" : "none",
+							}}
+						>
 							{selectedCategory === "all" ? (
 								// Show all categories with their widgets
 								Object.entries(groupedWidgets).map(

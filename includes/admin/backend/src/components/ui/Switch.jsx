@@ -24,7 +24,7 @@ const Switch = ({ checked, onChange, disabled = false, size = "small" }) => {
 			type='button'
 			className={`
         ${sizeClasses[size]}
-        ${checked ? "bg-blue-600" : "bg-gray-200"}
+        ${checked ? "bg-blue-600" : "bg-slate-300"}
         ${disabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}
         relative inline-flex items-center rounded-full border-2 border-transparent 
         transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 

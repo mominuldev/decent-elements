@@ -14,11 +14,11 @@ const Toast = ({ message, type = "success", duration = 3000, onClose }) => {
 
 	const getToastStyles = () => {
 		const baseStyles =
-			"w-max px-3 py-4 rounded-lg shadow-lg flex items-center space-x-2 transition-all duration-300 transform";
+			"w-max px-3 py-4 flex items-center space-x-2 rounded-lg shadow-[0px_10px_20px_-10px_rgba(23,25,31,0.14)] border border-zinc-200 transition-all duration-300 transform";
 
 		const typeStyles = {
 			success: "bg-white bg-green-500",
-			error: "text-red-500 bg-white",
+			error: "text-red-500 bg-red-100",
 			warning: "bg-yellow-500 text-white",
 			info: "bg-blue-500 text-white",
 		};

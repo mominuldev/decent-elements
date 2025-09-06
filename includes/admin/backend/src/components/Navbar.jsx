@@ -1,4 +1,15 @@
 import Menu from "./Menu";
+import { Button } from "@/components/ui/button";
+import {
+	Drawer,
+	DrawerClose,
+	DrawerContent,
+	DrawerDescription,
+	DrawerFooter,
+	DrawerHeader,
+	DrawerTitle,
+	DrawerTrigger,
+} from "@/components/ui/drawer";
 
 const Navbar = () => {
 	// Get the plugin base URL from WordPress
@@ -9,7 +20,7 @@ const Navbar = () => {
 	// const logoUrl = `https://decentelements.com/wp-content/uploads/2024/05/decent-logo.svg`; // For testing purpose
 
 	return (
-		<div className='bg-white h-[50px] mb-4 shadow-[0px_4px_6px_-4px_rgba(23,25,31,0.10)]'>
+		<div className='bg-white h-[50px] mb-10 shadow-[0px_4px_6px_-4px_rgba(23,25,31,0.10)]'>
 			<div className='max-w-[1200px] mx-auto'>
 				<div className='flex items-center justify-between gap-2 '>
 					<div className='flex items-center'>
@@ -43,18 +54,33 @@ const Navbar = () => {
 							Upgrade to PRO
 						</a>
 
-						<a
-							href='https://decentelements.com'
-							target='_blank'
-							rel='noreferrer'
-							className='w-8 h-8 bg-white rounded-full border border-gray-200 border-solid flex items-center justify-center'
-						>
-							<img
-								src={PromotIcon}
-								alt='Promote Icon'
-								className='w-4 h-4 mr-1'
-							/>
-						</a>
+						<Drawer direction='right'>
+							<DrawerTrigger className='w-8 h-8 bg-white rounded-full border border-gray-200 border-solid flex items-center justify-center transition-all duration-300 ease-in-out hover:bg-slate-100 cursor-pointer'>
+								<img
+									src={PromotIcon}
+									alt='Promote Icon'
+									className='w-4 h-4 !ml-0'
+								/>
+							</DrawerTrigger>
+							<DrawerContent className='max-w-70'>
+								<DrawerHeader>
+									<DrawerTitle>
+										Are you absolutely sure?
+									</DrawerTitle>
+									<DrawerDescription>
+										This action cannot be undone.
+									</DrawerDescription>
+								</DrawerHeader>
+								<DrawerFooter>
+									<Button>Submit</Button>
+									<DrawerClose>
+										<Button variant='outline'>
+											Cancel
+										</Button>
+									</DrawerClose>
+								</DrawerFooter>
+							</DrawerContent>
+						</Drawer>
 					</div>
 				</div>
 			</div>
