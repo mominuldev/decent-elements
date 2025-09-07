@@ -12,7 +12,31 @@
  * Requires PHP: 7.3
  */
 
+use Decent_Elements\Admin\Admin_Assets;
+use Decent_Elements\Admin\Admin_Menu;
+use Decent_Elements\Admin\Admin_Panel_API;
+use Decent_Elements\Widget_Manager;
+
 defined('ABSPATH') || exit;
+
+/**
+ * Defining plugin constants.
+ *
+ * @since 3.0.0
+ */
+//define('EAEL_PLUGIN_FILE', __FILE__);
+//define('EAEL_PLUGIN_BASENAME', plugin_basename(__FILE__));
+define('DECENT_ELEMENTS_PATH', trailingslashit(plugin_dir_path(__FILE__)));
+//define('EAEL_PLUGIN_URL', trailingslashit(plugins_url('/', __FILE__)));
+//define('EAEL_PLUGIN_VERSION', '6.3.1');
+//define('EAEL_ASSET_PATH', wp_upload_dir()['basedir'] . '/essential-addons-elementor');
+//define('EAEL_ASSET_URL', wp_upload_dir()['baseurl'] . '/essential-addons-elementor');
+/**
+ * Including composer autoloader globally.
+ *
+ * @since 3.0.0
+ */
+require_once DECENT_ELEMENTS_PATH . 'autoloader.php';
 
 final class Decent_Elements
 {
@@ -26,14 +50,17 @@ final class Decent_Elements
 		$this->includes();
 	}
 
+	/**
+	 * Include required files
+	 * @since 1.0
+	 */
 	private function includes()
 	{
 		if (is_admin()) {
-			require_once(DECENT_ELEMENTS_ABSPATH . 'includes/admin/class-admin-menu.php');
-			require_once(DECENT_ELEMENTS_ABSPATH . 'includes/admin/class-admin-assets.php');
+			new Admin_Menu();
+			new Admin_Assets();
 		}
-		require_once(DECENT_ELEMENTS_ABSPATH . 'includes/admin/class-admin-api.php');
-		require_once(DECENT_ELEMENTS_ABSPATH . 'includes/class-widget-manager.php');
+		Admin_Panel_API::instance();
 
 		// Initialize Elementor widgets
 		add_action('plugins_loaded', [$this, 'init_elementor']);
@@ -47,6 +74,7 @@ final class Decent_Elements
 		$this->define('DECENT_ELEMENTS_DEV', true);
 		$this->define('DECENT_ELEMENTS_REST_API_ROUTE', 'decent-elements/v1');
 		$this->define('DECENT_ELEMENTS_URL', plugin_dir_url(__FILE__));
+		$this->define('DECENT_ELEMENTS_PATH', trailingslashit(plugin_dir_path(__FILE__)));
 		$this->define('DECENT_ELEMENTS_ABSPATH', dirname(__FILE__) . '/');
 		$this->define('DECENT_ELEMENTS_VERSION', $this->get_version());
 		// Assets
@@ -90,7 +118,7 @@ final class Decent_Elements
 		add_action('elementor/elements/categories_registered', [$this, 'add_elementor_widget_categories']);
 
 		// Initialize widget manager
-		Decent_Elements_Widget_Manager::instance();
+		Widget_Manager::instance();
 	}
 
 	/**
