@@ -50,6 +50,12 @@ class Decent_Elements_Widget_Manager
             'class' => 'Decent_Elements_Button_Widget',
             'file' => 'button.php',
             'default' => true
+        ],
+        'animated-testimonials' => [
+            'name' => 'Animated Testimonials',
+            'class' => 'Decent_Animated_Testimonials_Widget',
+            'file' => 'animated-testimonials.php',
+            'default' => true
         ]
     ];
 

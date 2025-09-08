@@ -37,6 +37,10 @@ final class Decent_Elements
 
 		// Initialize Elementor widgets
 		add_action('plugins_loaded', [$this, 'init_elementor']);
+		
+		// Enqueue frontend assets
+		add_action('wp_enqueue_scripts', [$this, 'enqueue_frontend_assets']);
+		add_action('elementor/frontend/after_register_scripts', [$this, 'register_elementor_assets']);
 	}
 	/**
 	 * Define Plugin Constants.
@@ -44,7 +48,7 @@ final class Decent_Elements
 	 */
 	private function define_constants()
 	{
-		$this->define('DECENT_ELEMENTS_DEV', true);
+		$this->define('DECENT_ELEMENTS_DEV', false);
 		$this->define('DECENT_ELEMENTS_REST_API_ROUTE', 'decent-elements/v1');
 		$this->define('DECENT_ELEMENTS_URL', plugin_dir_url(__FILE__));
 		$this->define('DECENT_ELEMENTS_ABSPATH', dirname(__FILE__) . '/');
@@ -159,6 +163,54 @@ final class Decent_Elements
 				'icon' => 'fa fa-plug',
 			]
 		);
+	}
+
+	/**
+	 * Enqueue frontend assets
+	 * @since 1.0.0
+	 */
+	public function enqueue_frontend_assets()
+	{
+		// Check if Elementor is active and we have Elementor content
+		if (class_exists('\Elementor\Plugin')) {
+			global $post;
+			if ($post && \Elementor\Plugin::$instance->documents->get($post->ID)->is_built_with_elementor()) {
+				$this->enqueue_widget_assets();
+			}
+		}
+	}
+
+	/**
+	 * Register assets for Elementor
+	 * @since 1.0.0
+	 */
+	public function register_elementor_assets()
+	{
+		// Register animated testimonials assets
+		wp_register_style(
+			'decent-animated-testimonials',
+			plugin_dir_url(__FILE__) . 'assets/css/animated-testimonials.css',
+			[],
+			$this->version
+		);
+
+		wp_register_script(
+			'decent-animated-testimonials',
+			plugin_dir_url(__FILE__) . 'assets/js/animated-testimonials.js',
+			['jquery'],
+			$this->version,
+			true
+		);
+	}
+
+	/**
+	 * Enqueue widget assets conditionally
+	 * @since 1.0.0
+	 */
+	public function enqueue_widget_assets()
+	{
+		wp_enqueue_style('decent-animated-testimonials');
+		wp_enqueue_script('decent-animated-testimonials');
 	}
 
 	/**
