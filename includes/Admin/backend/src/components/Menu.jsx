@@ -9,7 +9,7 @@ const Menu = () => {
 	const menuItems = [
 		{ path: "/", label: "General" },
 		{ path: "/widgets", label: "Widgets" },
-		{ path: "/modules", label: "Extensions" },
+		{ path: "/extensions", label: "Extensions" },
 		{ path: "/settings", label: "Settings" },
 	];
 

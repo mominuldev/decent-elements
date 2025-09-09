@@ -330,5 +330,49 @@
 			"demoLink": "https://decentelements.com/floating-animation-widget/",
 			"docsLinks": "https://decentelements.com/docs/floating-animation-widget/"
 		}
+	],
+	"extensions": [
+		{
+			"id": "custom-css",
+			"name": "Custom CSS",
+			"enabled": false,
+			"icon": "�",
+			"link": "https://decentelements.com/custom-css/"
+		},
+		{
+			"id": "sticky-column",
+			"name": "Sticky Column",
+			"enabled": false,
+			"icon": "📌",
+			"link": "https://decentelements.com/sticky-column/"
+		},
+		{
+			"id": "wrapper-link",
+			"name": "Wrapper Link",
+			"enabled": false,
+			"icon": "�",
+			"link": "https://decentelements.com/wrapper-link/"
+		},
+		{
+			"id": "decent-elements-mouse-effects",
+			"name": "Mouse Effects",
+			"enabled": true,
+			"icon": "🚀",
+			"link": "https://decentelements.com/mouse-effects/"
+		},
+		{
+			"id": "decent-elements-scroll-effects",
+			"name": "Scroll Effects",
+			"enabled": true,
+			"icon": "🌀",
+			"link": "https://decentelements.com/scroll-effects/"
+		},
+		{
+			"id": "decent-elements-advanced-animations",
+			"name": "Advanced Animations",
+			"enabled": false,
+			"icon": "🎬",
+			"link": "https://decentelements.com/advanced-animations/"
+		}
 	]
 }

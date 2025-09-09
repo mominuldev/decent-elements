@@ -9,8 +9,9 @@ namespace Decent_Elements\Admin;
 
 defined('ABSPATH') || exit;
 
-class Admin_Assets
-{
+if (!class_exists('\Decent_Elements\\Admin\\Admin_Assets')) {
+    class Admin_Assets
+    {
     public function __construct()
     {
         add_action('admin_enqueue_scripts', array(__CLASS__, 'admin_enqueue_scripts'), 10, 1);
@@ -75,6 +76,8 @@ class Admin_Assets
         wp_enqueue_style('decent-elements-admin', DECENT_ELEMENTS_URL.'assets/css/admin.css', array(), DECENT_ELEMENTS_VERSION);
         // }
     }
+    }
+
 }
 
 //new Admin_Assets();
