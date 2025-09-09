@@ -1,0 +1,378 @@
+{
+	"categories": [
+		{
+			"id": "all",
+			"name": "All Widgets",
+			"icon": "⚡"
+		},
+		{
+			"id": "core",
+			"name": "Core UI / Content",
+			"icon": "🎯"
+		},
+		{
+			"id": "creative",
+			"name": "Creative",
+			"icon": "🎨"
+		},
+		{
+			"id": "content-display",
+			"name": "Content Display",
+			"icon": "📄"
+		},
+		{
+			"id": "navigation",
+			"name": "Navigation",
+			"icon": "🧭"
+		},
+		{
+			"id": "woocommerce",
+			"name": "WooCommerce",
+			"icon": "🛒"
+		},
+		{
+			"id": "marketing",
+			"name": "Marketing",
+			"icon": "📈"
+		},
+		{
+			"id": "media-content",
+			"name": "Media Content",
+			"icon": "📸"
+		}
+	],
+	"widgets": [
+		{
+			"id": "heading",
+			"name": "Heading",
+			"category": "core",
+			"status": "new",
+			"enabled": true,
+			"hasDemo": true,
+			"hasDocumentation": true,
+			"icon": "📝",
+			"demoLink": "https://decentelements.com/heading-widget/",
+			"docsLinks": "https://decentelements.com/docs/heading-widget/"
+		},
+		{
+			"id": "dual-color-heading",
+			"name": "Dual Color Heading",
+			"category": "core",
+			"status": "update",
+			"enabled": true,
+			"hasDemo": true,
+			"hasDocumentation": true,
+			"icon": "🎨",
+			"demoLink": "https://decentelements.com/dual-color-heading-widget/",
+			"docsLinks": "https://decentelements.com/docs/dual-color-heading-widget/"
+		},
+		{
+			"id": "image-box",
+			"name": "Image Box",
+			"category": "core",
+			"status": "freemium",
+			"enabled": true,
+			"hasDemo": true,
+			"hasDocumentation": true,
+			"icon": "🖼️",
+			"demoLink": "https://decentelements.com/image-box-widget/",
+			"docsLinks": "https://decentelements.com/docs/image-box-widget/"
+		},
+		{
+			"id": "icon-box",
+			"name": "Icon Box",
+			"category": "core",
+			"status": "normal",
+			"enabled": true,
+			"hasDemo": true,
+			"hasDocumentation": true,
+			"icon": "📦",
+			"demoLink": "https://decentelements.com/icon-box-widget/",
+			"docsLinks": "https://decentelements.com/docs/icon-box-widget/"
+		},
+		{
+			"id": "info-box",
+			"name": "Info Box",
+			"category": "core",
+			"status": "normal",
+			"enabled": true,
+			"hasDemo": true,
+			"hasDocumentation": true,
+			"icon": "ℹ️",
+			"demoLink": "https://decentelements.com/info-box-widget/",
+			"docsLinks": "https://decentelements.com/docs/info-box-widget/"
+		},
+		{
+			"id": "image-gallery",
+			"name": "Image Gallery",
+			"category": "core",
+			"status": "normal",
+			"enabled": true,
+			"hasDemo": true,
+			"hasDocumentation": true,
+			"icon": "🖼️",
+			"demoLink": "https://decentelements.com/image-gallery-widget/",
+			"docsLinks": "https://decentelements.com/docs/image-gallery-widget/"
+		},
+		{
+			"id": "accordion",
+			"name": "Accordion",
+			"category": "core",
+			"status": "freemium",
+			"enabled": true,
+			"hasDemo": true,
+			"hasDocumentation": true,
+			"icon": "📋",
+			"demoLink": "https://decentelements.com/accordion-widget/",
+			"docsLinks": "https://decentelements.com/docs/accordion-widget/"
+		},
+		{
+			"id": "image-accordion",
+			"name": "Image Accordion",
+			"category": "core",
+			"status": "pro",
+			"enabled": false,
+			"hasDemo": true,
+			"hasDocumentation": true,
+			"icon": "🖼️",
+			"demoLink": "https://decentelements.com/image-accordion-widget/",
+			"docsLinks": "https://decentelements.com/docs/image-accordion-widget/"
+		},
+		{
+			"id": "faq",
+			"name": "FAQ",
+			"category": "core",
+			"status": "pro",
+			"enabled": false,
+			"hasDemo": true,
+			"hasDocumentation": true,
+			"icon": "❓",
+			"demoLink": "https://decentelements.com/faq-widget/",
+			"docsLinks": "https://decentelements.com/docs/faq-widget/"
+		},
+		{
+			"id": "toggle-content",
+			"name": "Toggle Content",
+			"category": "core",
+			"status": "pro",
+			"enabled": false,
+			"hasDemo": true,
+			"hasDocumentation": true,
+			"icon": "🔄",
+			"demoLink": "https://decentelements.com/toggle-content-widget/",
+			"docsLinks": "https://decentelements.com/docs/toggle-content-widget/"
+		},
+		{
+			"id": "button",
+			"name": "Button",
+			"category": "core",
+			"status": "new",
+			"enabled": true,
+			"hasDemo": true,
+			"hasDocumentation": true,
+			"icon": "🔘",
+			"demoLink": "https://decentelements.com/button-widget/",
+			"docsLinks": "https://decentelements.com/docs/button-widget/"
+		},
+		{
+			"id": "stylish-list",
+			"name": "Stylish List",
+			"category": "core",
+			"status": "normal",
+			"enabled": true,
+			"hasDemo": true,
+			"hasDocumentation": true,
+			"icon": "📝",
+			"demoLink": "https://decentelements.com/stylish-list-widget/",
+			"docsLinks": "https://decentelements.com/docs/stylish-list-widget/"
+		},
+		{
+			"id": "flip-box",
+			"name": "Flip Box",
+			"category": "creative",
+			"status": "update",
+			"enabled": true,
+			"hasDemo": true,
+			"hasDocumentation": true,
+			"icon": "🔄",
+			"demoLink": "https://decentelements.com/flip-box-widget/",
+			"docsLinks": "https://decentelements.com/docs/flip-box-widget/"
+		},
+		{
+			"id": "image-comparison",
+			"name": "Image Comparison",
+			"category": "creative",
+			"status": "normal",
+			"enabled": true,
+			"hasDemo": true,
+			"hasDocumentation": true,
+			"icon": "⚖️",
+			"demoLink": "https://decentelements.com/image-comparison-widget/",
+			"docsLinks": "https://decentelements.com/docs/image-comparison-widget/"
+		},
+		{
+			"id": "hotspot-image",
+			"name": "Hotspot Image",
+			"category": "creative",
+			"status": "normal",
+			"enabled": true,
+			"hasDemo": true,
+			"hasDocumentation": true,
+			"icon": "📍",
+			"demoLink": "https://decentelements.com/hotspot-image-widget/",
+			"docsLinks": "https://decentelements.com/docs/hotspot-image-widget/"
+		},
+		{
+			"id": "lottie-animation",
+			"name": "Lottie Animation",
+			"category": "creative",
+			"status": "normal",
+			"enabled": true,
+			"hasDemo": true,
+			"hasDocumentation": true,
+			"icon": "🎭",
+			"demoLink": "https://decentelements.com/lottie-animation-widget/",
+			"docsLinks": "https://decentelements.com/docs/lottie-animation-widget/"
+		},
+		{
+			"id": "timeline",
+			"name": "Timeline",
+			"category": "creative",
+			"status": "normal",
+			"enabled": true,
+			"hasDemo": true,
+			"hasDocumentation": true,
+			"icon": "⏰",
+			"demoLink": "https://decentelements.com/timeline-widget/",
+			"docsLinks": "https://decentelements.com/docs/timeline-widget/"
+		},
+		{
+			"id": "parallax",
+			"name": "Parallax",
+			"category": "creative",
+			"status": "pro",
+			"enabled": true,
+			"hasDemo": true,
+			"hasDocumentation": true,
+			"icon": "🌊",
+			"demoLink": "https://decentelements.com/parallax-widget/",
+			"docsLinks": "https://decentelements.com/docs/parallax-widget/"
+		},
+		{
+			"id": "particle",
+			"name": "Particle",
+			"category": "creative",
+			"status": "new",
+			"enabled": true,
+			"hasDemo": true,
+			"hasDocumentation": true,
+			"icon": "✨",
+			"demoLink": "https://decentelements.com/particle-widget/",
+			"docsLinks": "https://decentelements.com/docs/particle-widget/"
+		},
+		{
+			"id": "background-switcher",
+			"name": "Background Switcher",
+			"category": "creative",
+			"status": "pro",
+			"enabled": false,
+			"hasDemo": true,
+			"hasDocumentation": true,
+			"icon": "🎨",
+			"demoLink": "https://decentelements.com/background-switcher-widget/",
+			"docsLinks": "https://decentelements.com/docs/background-switcher-widget/"
+		},
+		{
+			"id": "stacking-cards",
+			"name": "Stacking Cards",
+			"category": "creative",
+			"status": "pro",
+			"enabled": false,
+			"hasDemo": true,
+			"hasDocumentation": true,
+			"icon": "🃏",
+			"demoLink": "https://decentelements.com/stacking-cards-widget/",
+			"docsLinks": "https://decentelements.com/docs/stacking-cards-widget/"
+		},
+		{
+			"id": "unfold-content",
+			"name": "Unfold Content",
+			"category": "creative",
+			"status": "new",
+			"enabled": false,
+			"hasDemo": true,
+			"hasDocumentation": true,
+			"icon": "📂",
+			"demoLink": "https://decentelements.com/unfold-content-widget/",
+			"docsLinks": "https://decentelements.com/docs/unfold-content-widget/"
+		},
+		{
+			"id": "funfact",
+			"name": "Funfact",
+			"category": "creative",
+			"status": "new",
+			"enabled": true,
+			"hasDemo": true,
+			"hasDocumentation": true,
+			"icon": "🎯",
+			"demoLink": "https://decentelements.com/funfact-widget/",
+			"docsLinks": "https://decentelements.com/docs/funfact-widget/"
+		},
+		{
+			"id": "floating-animation",
+			"name": "Floating Animation",
+			"category": "creative",
+			"status": "normal",
+			"enabled": true,
+			"hasDemo": true,
+			"hasDocumentation": true,
+			"icon": "🎈",
+			"demoLink": "https://decentelements.com/floating-animation-widget/",
+			"docsLinks": "https://decentelements.com/docs/floating-animation-widget/"
+		}
+	],
+	"extensions": [
+		{
+			"id": "custom-css",
+			"name": "Custom CSS",
+			"enabled": false,
+			"icon": "�",
+			"link": "https://decentelements.com/custom-css/"
+		},
+		{
+			"id": "sticky-column",
+			"name": "Sticky Column",
+			"enabled": false,
+			"icon": "📌",
+			"link": "https://decentelements.com/sticky-column/"
+		},
+		{
+			"id": "wrapper-link",
+			"name": "Wrapper Link",
+			"enabled": false,
+			"icon": "�",
+			"link": "https://decentelements.com/wrapper-link/"
+		},
+		{
+			"id": "decent-elements-mouse-effects",
+			"name": "Mouse Effects",
+			"enabled": true,
+			"icon": "🚀",
+			"link": "https://decentelements.com/mouse-effects/"
+		},
+		{
+			"id": "decent-elements-scroll-effects",
+			"name": "Scroll Effects",
+			"enabled": true,
+			"icon": "🌀",
+			"link": "https://decentelements.com/scroll-effects/"
+		},
+		{
+			"id": "decent-elements-advanced-animations",
+			"name": "Advanced Animations",
+			"enabled": false,
+			"icon": "🎬",
+			"link": "https://decentelements.com/advanced-animations/"
+		}
+	]
+}
