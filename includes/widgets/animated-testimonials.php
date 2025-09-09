@@ -154,6 +154,35 @@ class Decent_Animated_Testimonials_Widget extends \Elementor\Widget_Base
             ]
         );
 
+        $this->add_control(
+            'pause_on_hover',
+            [
+                'label' => esc_html__('Pause on Hover', 'decent-elements'),
+                'type' => \Elementor\Controls_Manager::SWITCHER,
+                'label_on' => esc_html__('Yes', 'decent-elements'),
+                'label_off' => esc_html__('No', 'decent-elements'),
+                'return_value' => 'yes',
+                'default' => 'yes',
+                'description' => esc_html__('Pause autoplay when hovering over the testimonials', 'decent-elements'),
+                'condition' => [
+                    'autoplay' => 'yes',
+                ],
+            ]
+        );
+
+        $this->add_control(
+            'layout_style',
+            [
+                'label' => esc_html__('Layout Style', 'decent-elements'),
+                'type' => \Elementor\Controls_Manager::SELECT,
+                'default' => 'style-1',
+                'options' => [
+                    'style-1' => esc_html__('Style 1 (Split Layout)', 'decent-elements'),
+                    'style-2' => esc_html__('Style 2 (Card Layout)', 'decent-elements'),
+                ],
+            ]
+        );
+
         $this->end_controls_section();
 
         // Style Section
@@ -281,9 +310,16 @@ class Decent_Animated_Testimonials_Widget extends \Elementor\Widget_Base
 
         $autoplay = $settings['autoplay'] === 'yes';
         $autoplay_speed = $settings['autoplay_speed'] ?? 5000;
+        $pause_on_hover = $settings['pause_on_hover'] === 'yes';
+        $layout_style = $settings['layout_style'] ?? 'style-1';
         ?>
-<div class="decent-animated-testimonials" data-autoplay="<?php echo esc_attr($autoplay ? 'true' : 'false'); ?>"
-	data-autoplay-speed="<?php echo esc_attr($autoplay_speed); ?>">
+        <div class="decent-animated-testimonials decent-testimonials-<?php echo esc_attr($layout_style); ?>" 
+             data-autoplay="<?php echo esc_attr($autoplay ? 'true' : 'false'); ?>" 
+             data-autoplay-speed="<?php echo esc_attr($autoplay_speed); ?>"
+             data-pause-on-hover="<?php echo esc_attr($pause_on_hover ? 'true' : 'false'); ?>">
+
+	<?php if ($layout_style === 'style-1'): ?>
+	<!-- Style 1: Split Layout (Original) -->
 	<div class="testimonials-container">
 		<div class="testimonials-images">
 			<?php foreach ($testimonials as $index => $testimonial): ?>
@@ -320,8 +356,62 @@ class Decent_Animated_Testimonials_Widget extends \Elementor\Widget_Base
 					</svg>
 				</button>
 			</div>
+
+			<!-- Pagination for Style 1 -->
+			<div class="testimonials-pagination">
+				<?php foreach ($testimonials as $index => $testimonial): ?>
+				<div class="pagination-dot <?php echo $index === 0 ? 'active' : ''; ?>"
+					data-index="<?php echo esc_attr($index); ?>"></div>
+				<?php endforeach; ?>
+			</div>
 		</div>
 	</div>
+
+	<?php else: ?>
+	<!-- Style 2: Card Layout -->
+	<div class="testimonials-cards-container">
+		<?php foreach ($testimonials as $index => $testimonial): ?>
+		<div class="testimonial-card <?php echo $index === 0 ? 'active' : ''; ?>"
+			data-index="<?php echo esc_attr($index); ?>">
+			<div class="testimonial-card-content">
+				<div class="testimonial-card-image">
+					<img src="<?php echo esc_url($testimonial['testimonial_image']['url']); ?>"
+						alt="<?php echo esc_attr($testimonial['testimonial_name']); ?>" draggable="false">
+				</div>
+				<div class="testimonial-card-info">
+					<p class="testimonial-quote"><?php echo esc_html($testimonial['testimonial_quote']); ?></p>
+					<div class="testimonial-author">
+						<h3 class="testimonial-name"><?php echo esc_html($testimonial['testimonial_name']); ?></h3>
+						<p class="testimonial-designation">
+							<?php echo esc_html($testimonial['testimonial_designation']); ?></p>
+					</div>
+				</div>
+			</div>
+		</div>
+		<?php endforeach; ?>
+
+		<div class="testimonials-navigation">
+			<button class="nav-btn prev-btn" aria-label="Previous testimonial">
+				<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+					<path d="M19 12H5M12 19l-7-7 7-7" />
+				</svg>
+			</button>
+			<button class="nav-btn next-btn" aria-label="Next testimonial">
+				<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+					<path d="M5 12h14M12 5l7 7-7 7" />
+				</svg>
+			</button>
+		</div>
+
+		<!-- Pagination for Style 2 -->
+		<div class="testimonials-pagination">
+			<?php foreach ($testimonials as $index => $testimonial): ?>
+			<div class="pagination-dot <?php echo $index === 0 ? 'active' : ''; ?>"
+				data-index="<?php echo esc_attr($index); ?>"></div>
+			<?php endforeach; ?>
+		</div>
+	</div>
+	<?php endif; ?>
 </div>
 <?php
     }
