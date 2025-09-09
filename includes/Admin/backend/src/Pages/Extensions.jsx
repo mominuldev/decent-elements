@@ -222,7 +222,7 @@ const Extensions = () => {
 					{extensions.map((extension, index) => (
 						<div
 							key={extension.id}
-							className={`bg-white p-6 rounded-md hover:shadow-md transition-all duration-300 ${
+							className={`bg-white py-4 px-6 rounded-md hover:shadow-md transition-all duration-300 ${
 								extension.enabled
 									? "ring-2 ring-blue-100 border-blue-200"
 									: ""
@@ -240,7 +240,7 @@ const Extensions = () => {
 										{extension.icon}
 									</div>
 									<div>
-										<h3 className='font-semibold text-gray-900 text-base !mt-0'>
+										<h3 className='font-semibold text-gray-900 text-base !my-0'>
 											{extension.name}
 										</h3>
 									</div>

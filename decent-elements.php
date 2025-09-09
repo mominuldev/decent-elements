@@ -79,7 +79,7 @@ final class Decent_Elements
 	 */
 	private function define_constants()
 	{
-		$this->define('DECENT_ELEMENTS_DEV', false);
+		$this->define('DECENT_ELEMENTS_DEV', true);
 		$this->define('DECENT_ELEMENTS_REST_API_ROUTE', 'decent-elements/v1');
 		$this->define('DECENT_ELEMENTS_URL', plugin_dir_url(__FILE__));
 		$this->define('DECENT_ELEMENTS_PATH', trailingslashit(plugin_dir_path(__FILE__)));
