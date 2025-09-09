@@ -51,6 +51,18 @@ class Admin_Panel_API
 				'permission_callback' => array($this, 'get_permission')
 			));
 
+			// Extension Settings
+			register_rest_route(DECENT_ELEMENTS_REST_API_ROUTE, '/extensions/', array(
+				'methods'             => 'GET',
+				'callback'            => array($this, 'get_extension_settings'),
+				'permission_callback' => array($this, 'get_permission')
+			));
+			register_rest_route(DECENT_ELEMENTS_REST_API_ROUTE, '/extensions/', array(
+				'methods'             => 'POST',
+				'callback'            => array($this, 'set_extension_settings'),
+				'permission_callback' => array($this, 'get_permission')
+			));
+
 		});
 	}
 
@@ -204,6 +216,143 @@ class Admin_Panel_API
 			return new \WP_REST_Response([
 				'success' => false,
 				'message' => 'Failed to save widget settings'
+			], 500);
+		}
+	}
+
+	/**
+	 * Getting extension settings
+	 * @since 1.0.0
+	 */
+	public function get_extension_settings()
+	{
+		error_log('Extension settings API called');
+		
+		try {
+			// Ensure Extension Manager class is loaded
+			if (!class_exists('Decent_Elements_Extension_Manager')) {
+				$manager_file = DECENT_ELEMENTS_PATH . 'includes/class-extension-manager.php';
+				if (file_exists($manager_file)) {
+					require_once $manager_file;
+				}
+			}
+
+			// Get extension manager instance (try global, function, or ::instance())
+			$extension_manager = null;
+			if (isset($GLOBALS['decent_elements_extension_manager']) && $GLOBALS['decent_elements_extension_manager']) {
+				$extension_manager = $GLOBALS['decent_elements_extension_manager'];
+			}
+			if (!$extension_manager && function_exists('Decent_Elements_Extension_Manager')) {
+				$extension_manager = Decent_Elements_Extension_Manager();
+			}
+			if (!$extension_manager && class_exists('Decent_Elements_Extension_Manager') && method_exists('Decent_Elements_Extension_Manager', 'instance')) {
+				$extension_manager = Decent_Elements_Extension_Manager::instance();
+			}
+
+			if (!$extension_manager) {
+				error_log('Extension Manager instance not available');
+				return new \WP_REST_Response(['error' => 'Extension Manager instance not available'], 500);
+			}
+
+			$available_extensions = $extension_manager->get_available_extensions();
+			$current_settings = $extension_manager->get_extension_settings();
+
+			error_log('Available extensions: ' . print_r($available_extensions, true));
+			error_log('Current extension settings: ' . print_r($current_settings, true));
+
+			$result = [];
+			foreach ($available_extensions as $extension_id => $extension_data) {
+				$result[$extension_id] = [
+					'id' => $extension_id,
+					'name' => $extension_data['name'],
+					'enabled' => isset($current_settings[$extension_id]) ? (bool) $current_settings[$extension_id] : $extension_data['default'],
+					'default' => $extension_data['default']
+				];
+			}
+
+			error_log('Extension result: ' . print_r($result, true));
+			return new \WP_REST_Response($result, 200);
+		} catch (\Exception $e) {
+			error_log('Extension settings API error: ' . $e->getMessage());
+			return new \WP_REST_Response(['error' => 'Internal server error: ' . $e->getMessage()], 500);
+		}
+	}
+
+	/**
+	 * Saving extension settings
+	 * @since 1.0.0
+	 */
+	public function set_extension_settings($data)
+	{
+		error_log('Extension settings save API called');
+		
+		try {
+			// Ensure Extension Manager class is loaded
+			if (!class_exists('Decent_Elements_Extension_Manager')) {
+				$manager_file = DECENT_ELEMENTS_PATH . 'includes/class-extension-manager.php';
+				if (file_exists($manager_file)) {
+					require_once $manager_file;
+				}
+			}
+
+			// Get extension manager instance (try global, function, or ::instance())
+			$extension_manager = null;
+			if (isset($GLOBALS['decent_elements_extension_manager']) && $GLOBALS['decent_elements_extension_manager']) {
+				$extension_manager = $GLOBALS['decent_elements_extension_manager'];
+			}
+			if (!$extension_manager && function_exists('Decent_Elements_Extension_Manager')) {
+				$extension_manager = Decent_Elements_Extension_Manager();
+			}
+			if (!$extension_manager && class_exists('Decent_Elements_Extension_Manager') && method_exists('Decent_Elements_Extension_Manager', 'instance')) {
+				$extension_manager = Decent_Elements_Extension_Manager::instance();
+			}
+
+			if (!$extension_manager) {
+				error_log('Extension Manager instance not available');
+				return new \WP_REST_Response([
+					'success' => false,
+					'message' => 'Extension Manager instance not available'
+				], 500);
+			}
+
+			$available_extensions = $extension_manager->get_available_extensions();
+			
+			$request_data = $data->get_params();
+			error_log('Extension request data: ' . print_r($request_data, true));
+			
+			$settings = [];
+
+			// Validate and sanitize the data
+			foreach ($request_data as $extension_id => $enabled) {
+				if (array_key_exists($extension_id, $available_extensions)) {
+					$settings[$extension_id] = (bool) $enabled;
+				}
+			}
+
+			error_log('Processed extension settings: ' . print_r($settings, true));
+
+			// Save the settings using extension manager
+			$success = $extension_manager->update_extension_settings($settings);
+
+			if ($success !== false) {
+				error_log('Extension settings saved successfully');
+				return new \WP_REST_Response([
+					'success' => true,
+					'message' => 'Extension settings saved successfully',
+					'data' => $settings
+				], 200);
+			} else {
+				error_log('Failed to save extension settings');
+				return new \WP_REST_Response([
+					'success' => false,
+					'message' => 'Failed to save extension settings'
+				], 500);
+			}
+		} catch (\Exception $e) {
+			error_log('Extension settings save API error: ' . $e->getMessage());
+			return new \WP_REST_Response([
+				'success' => false,
+				'message' => 'Internal server error: ' . $e->getMessage()
 			], 500);
 		}
 	}

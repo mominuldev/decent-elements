@@ -65,6 +65,10 @@ final class Decent_Elements
 		// Initialize Elementor widgets
 		add_action('plugins_loaded', [$this, 'init_elementor']);
 		
+		// Initialize Extension Manager
+		require_once DECENT_ELEMENTS_PATH . 'includes/Extension_Manager.php';
+
+		
 		// Enqueue frontend assets
 		add_action('wp_enqueue_scripts', [$this, 'enqueue_frontend_assets']);
 		add_action('elementor/frontend/after_register_scripts', [$this, 'register_elementor_assets']);
