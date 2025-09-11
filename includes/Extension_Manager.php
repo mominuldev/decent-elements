@@ -58,7 +58,12 @@ class Decent_Elements_Extension_Manager
             'class' => 'Decent_Elements_Advanced_Animations_Extension',
             'file' => 'advanced-animations.php',
             'default' => false
-        ]
+        ],
+        'custom-cursor' => [
+	        'name' => 'Custom Cursor',
+	        'default' => false,
+	        'file' => 'custom-cursor.php',
+        ],
     ];
 
     /**

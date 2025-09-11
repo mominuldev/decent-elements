@@ -373,6 +373,13 @@
 			"enabled": false,
 			"icon": "🎬",
 			"link": "https://decentelements.com/advanced-animations/"
+		},
+		{
+			"id": "custom-cursor",
+			"name": "Custom Cursor",
+			"enabled": false,
+			"icon": "🖱️",
+			"link": "https://decentelements.com/custom-cursor/"
 		}
 	]
 }
