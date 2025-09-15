@@ -61,8 +61,9 @@ class Decent_Elements_Extension_Manager
         ],
         'custom-cursor' => [
 	        'name' => 'Custom Cursor',
-	        'default' => false,
+	        'class' => 'Decent_Elements_Custom_Cursor_Extension',
 	        'file' => 'custom-cursor.php',
+	        'default' => false
         ],
     ];
 
