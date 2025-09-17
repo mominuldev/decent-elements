@@ -1,0 +1,7 @@
+.de-heading {
+    color: red;
+    font-weight: 700;
+    text-transform: uppercase;
+    line-height: 1.2;
+    font-size: 40px;
+}

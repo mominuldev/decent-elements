@@ -220,14 +220,14 @@ final class Decent_Elements
 	{
 		// Register animated testimonials assets
 		wp_register_style(
-			'decent-animated-testimonials',
+			'de-animated-testimonials',
 			plugin_dir_url(__FILE__) . 'assets/css/animated-testimonials.css',
 			[],
 			$this->version
 		);
 
 		wp_register_script(
-			'decent-animated-testimonials',
+			'de-animated-testimonials',
 			plugin_dir_url(__FILE__) . 'assets/js/animated-testimonials.js',
 			['jquery'],
 			$this->version,
@@ -241,8 +241,8 @@ final class Decent_Elements
 	 */
 	public function enqueue_widget_assets()
 	{
-		wp_enqueue_style('decent-animated-testimonials');
-		wp_enqueue_script('decent-animated-testimonials');
+		wp_enqueue_style('de-animated-testimonials');
+		wp_enqueue_script('de-animated-testimonials');
 	}
 
 	/**

@@ -21,7 +21,7 @@ class Decent_Elements_Heading_Widget extends Widget_Base
      */
     public function get_name()
     {
-        return 'decent-heading';
+        return 'de-heading';
     }
 
     /**
@@ -112,7 +112,7 @@ class Decent_Elements_Heading_Widget extends Widget_Base
                 ],
                 'default' => 'left',
                 'selectors' => [
-                    '{{WRAPPER}} .decent-heading' => 'text-align: {{VALUE}};',
+                    '{{WRAPPER}} .de-heading' => 'text-align: {{VALUE}};',
                 ],
             ]
         );
@@ -135,7 +135,7 @@ class Decent_Elements_Heading_Widget extends Widget_Base
                 'type' => Controls_Manager::COLOR,
                 'default' => '#333333',
                 'selectors' => [
-                    '{{WRAPPER}} .decent-heading' => 'color: {{VALUE}};',
+                    '{{WRAPPER}} .de-heading' => 'color: {{VALUE}};',
                 ],
             ]
         );
@@ -144,7 +144,7 @@ class Decent_Elements_Heading_Widget extends Widget_Base
             Group_Control_Typography::get_type(),
             [
                 'name' => 'heading_typography',
-                'selector' => '{{WRAPPER}} .decent-heading',
+                'selector' => '{{WRAPPER}} .de-heading',
             ]
         );
 
@@ -152,7 +152,7 @@ class Decent_Elements_Heading_Widget extends Widget_Base
             Group_Control_Text_Shadow::get_type(),
             [
                 'name' => 'heading_text_shadow',
-                'selector' => '{{WRAPPER}} .decent-heading',
+                'selector' => '{{WRAPPER}} .de-heading',
             ]
         );
 
@@ -163,7 +163,7 @@ class Decent_Elements_Heading_Widget extends Widget_Base
                 'type' => Controls_Manager::DIMENSIONS,
                 'size_units' => ['px', '%', 'em'],
                 'selectors' => [
-                    '{{WRAPPER}} .decent-heading' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                    '{{WRAPPER}} .de-heading' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
                 ],
             ]
         );
@@ -185,7 +185,7 @@ class Decent_Elements_Heading_Widget extends Widget_Base
         }
 
         echo sprintf(
-            '<%1$s class="decent-heading">%2$s</%1$s>',
+            '<%1$s class="de-heading">%2$s</%1$s>',
             esc_attr($heading_tag),
             esc_html($heading_text)
         );
@@ -202,7 +202,7 @@ class Decent_Elements_Heading_Widget extends Widget_Base
         var headingText = settings.heading_text;
         
         if (headingText) {
-            print('<' + headingTag + ' class="decent-heading">' + headingText + '</' + headingTag + '>');
+            print('<' + headingTag + ' class="de-heading">' + headingText + '</' + headingTag + '>');
         }
         #>
         <?php

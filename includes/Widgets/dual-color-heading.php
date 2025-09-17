@@ -19,7 +19,7 @@ class Decent_Elements_Dual_Color_Heading_Widget extends Widget_Base
      */
     public function get_name()
     {
-        return 'decent-dual-color-heading';
+        return 'de-dual-color-heading';
     }
 
     /**

@@ -63,6 +63,47 @@ class Admin_Panel_API
 				'permission_callback' => array($this, 'get_permission')
 			));
 
+			// Feature Settings
+			register_rest_route(DECENT_ELEMENTS_REST_API_ROUTE, '/settings/features', array(
+				'methods'             => 'GET',
+				'callback'            => array($this, 'get_feature_settings'),
+				'permission_callback' => array($this, 'get_permission')
+			));
+			register_rest_route(DECENT_ELEMENTS_REST_API_ROUTE, '/settings/features', array(
+				'methods'             => 'POST',
+				'callback'            => array($this, 'set_feature_settings'),
+				'permission_callback' => array($this, 'get_permission')
+			));
+
+			// Optimization Settings
+			register_rest_route(DECENT_ELEMENTS_REST_API_ROUTE, '/settings/optimization', array(
+				'methods'             => 'GET',
+				'callback'            => array($this, 'get_optimization_settings'),
+				'permission_callback' => array($this, 'get_permission')
+			));
+			register_rest_route(DECENT_ELEMENTS_REST_API_ROUTE, '/settings/optimization', array(
+				'methods'             => 'POST',
+				'callback'            => array($this, 'set_optimization_settings'),
+				'permission_callback' => array($this, 'get_permission')
+			));
+
+			// Optimization Actions
+			register_rest_route(DECENT_ELEMENTS_REST_API_ROUTE, '/optimization/stats', array(
+				'methods'             => 'GET',
+				'callback'            => array($this, 'get_optimization_stats'),
+				'permission_callback' => array($this, 'get_permission')
+			));
+			register_rest_route(DECENT_ELEMENTS_REST_API_ROUTE, '/optimization/generate', array(
+				'methods'             => 'POST',
+				'callback'            => array($this, 'generate_optimized_assets'),
+				'permission_callback' => array($this, 'get_permission')
+			));
+			register_rest_route(DECENT_ELEMENTS_REST_API_ROUTE, '/optimization/clear', array(
+				'methods'             => 'POST',
+				'callback'            => array($this, 'clear_optimized_assets'),
+				'permission_callback' => array($this, 'get_permission')
+			));
+
 		});
 	}
 
@@ -420,5 +461,153 @@ class Admin_Panel_API
 	{
 		_doing_it_wrong(__FUNCTION__, __('Cheatin&#8217; huh?'), DECENT_ELEMENTS_VERSION);
 	}
-}
 
+	/**
+	 * Fetching optimization settings
+	 * @since 1.0.0
+	 */
+	public function get_optimization_settings()
+	{
+		error_log('Get optimization settings API called');
+
+		$enabled = get_option('decent_elements_enable_asset_optimization', false);
+
+		return new \WP_REST_Response([
+			'success' => true,
+			'data' => [
+				'enabled' => (bool) $enabled
+			]
+		], 200);
+	}
+
+	/**
+	 * Saving optimization settings
+	 * @since 1.0.0
+	 */
+	public function set_optimization_settings($data)
+	{
+		error_log('Optimization settings API called');
+
+		$request_data = $data->get_params();
+		$enabled = isset($request_data['enabled']) ? (bool) $request_data['enabled'] : false;
+
+		// Save the setting
+		$success = update_option('decent_elements_enable_asset_optimization', $enabled);
+
+		// Update settings timestamp
+		update_option('decent_elements_settings_last_updated', time());
+
+		if ($success !== false) {
+			return new \WP_REST_Response([
+				'success' => true,
+				'message' => 'Optimization settings saved successfully',
+				'data' => ['enabled' => $enabled]
+			], 200);
+		} else {
+			return new \WP_REST_Response([
+				'success' => false,
+				'message' => 'Failed to save optimization settings'
+			], 500);
+		}
+	}
+
+	/**
+	 * Get optimization statistics
+	 * @since 1.0.0
+	 */
+	public function get_optimization_stats()
+	{
+		error_log('Get optimization stats API called');
+
+		// Load the Asset Minifier Manager
+		if (!class_exists('Decent_Elements\Admin\Optimizer\Asset_Minifier_Manager')) {
+			require_once DECENT_ELEMENTS_PATH . 'includes/Admin/optimizer/autoload.php';
+			require_once DECENT_ELEMENTS_PATH . 'includes/Admin/optimizer/Asset_Minifier_Manager.php';
+		}
+
+		try {
+			$optimizer = \Decent_Elements\Admin\Optimizer\Asset_Minifier_Manager::instance();
+			$stats = $optimizer->get_optimization_stats();
+
+			return new \WP_REST_Response([
+				'success' => true,
+				'data' => $stats
+			], 200);
+		} catch (\Exception $e) {
+			error_log('Optimization stats error: ' . $e->getMessage());
+			return new \WP_REST_Response([
+				'success' => false,
+				'message' => 'Failed to get optimization stats: ' . $e->getMessage()
+			], 500);
+		}
+	}
+
+	/**
+	 * Generate optimized assets
+	 * @since 1.0.0
+	 */
+	public function generate_optimized_assets()
+	{
+		error_log('Generate optimized assets API called');
+
+		// Load the Asset Minifier Manager
+		if (!class_exists('Decent_Elements\Admin\Optimizer\Asset_Minifier_Manager')) {
+			require_once DECENT_ELEMENTS_PATH . 'includes/Admin/optimizer/autoload.php';
+			require_once DECENT_ELEMENTS_PATH . 'includes/Admin/optimizer/Asset_Minifier_Manager.php';
+		}
+
+		try {
+			$optimizer = \Decent_Elements\Admin\Optimizer\Asset_Minifier_Manager::instance();
+			$result = $optimizer->generate_minified_assets();
+
+			if ($result) {
+				return new \WP_REST_Response([
+					'success' => true,
+					'message' => 'Optimized assets generated successfully'
+				], 200);
+			} else {
+				return new \WP_REST_Response([
+					'success' => false,
+					'message' => 'Failed to generate optimized assets. Please check error logs.'
+				], 500);
+			}
+		} catch (\Exception $e) {
+			error_log('Generate assets error: ' . $e->getMessage());
+			return new \WP_REST_Response([
+				'success' => false,
+				'message' => 'Failed to generate optimized assets: ' . $e->getMessage()
+			], 500);
+		}
+	}
+
+	/**
+	 * Clear optimized assets
+	 * @since 1.0.0
+	 */
+	public function clear_optimized_assets()
+	{
+		error_log('Clear optimized assets API called');
+
+		// Load the Asset Minifier Manager
+		if (!class_exists('Decent_Elements\Admin\Optimizer\Asset_Minifier_Manager')) {
+			require_once DECENT_ELEMENTS_PATH . 'includes/Admin/optimizer/autoload.php';
+			require_once DECENT_ELEMENTS_PATH . 'includes/Admin/optimizer/Asset_Minifier_Manager.php';
+		}
+
+		try {
+			$optimizer = \Decent_Elements\Admin\Optimizer\Asset_Minifier_Manager::instance();
+			$optimizer->clear_optimized_assets();
+
+			return new \WP_REST_Response([
+				'success' => true,
+				'message' => 'Optimized assets cleared successfully'
+			], 200);
+		} catch (\Exception $e) {
+			error_log('Clear assets error: ' . $e->getMessage());
+			return new \WP_REST_Response([
+				'success' => false,
+				'message' => 'Failed to clear optimized assets: ' . $e->getMessage()
+			], 500);
+		}
+	}
+}

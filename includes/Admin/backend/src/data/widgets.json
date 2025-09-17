@@ -381,5 +381,42 @@
 			"icon": "🖱️",
 			"link": "https://decentelements.com/custom-cursor/"
 		}
+	],
+	"features": [
+		{
+			"id": "assets-optimizer",
+			"name": "Assets Optimizer",
+			"enabled": true,
+			"icon": "⚙️",
+			"link": "https://decentelements.com/assets-optimizer/"
+		},
+		{
+			"id": "template-library",
+			"name": "Template Library",
+			"enabled": true,
+			"icon": "📚",
+			"link": "https://decentelements.com/template-library/"
+		},
+		{
+			"id": "custom-fonts",
+			"name": "Custom Fonts",
+			"enabled": true,
+			"icon": "🔤",
+			"link": "https://decentelements.com/custom-fonts/"
+		},
+		{
+			"id": "svg-shape-dividers",
+			"name": "SVG Shape Dividers",
+			"enabled": true,
+			"icon": "🔻",
+			"link": "https://decentelements.com/svg-shape-dividers/"
+		},
+		{
+			"id": "global-colors",
+			"name": "Global Colors",
+			"enabled": true,
+			"icon": "🎨",
+			"link": "https://decentelements.com/global-colors/"
+		}
 	]
 }

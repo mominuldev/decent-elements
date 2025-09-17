@@ -9,7 +9,7 @@ class Decent_Animated_Testimonials_Widget extends \Elementor\Widget_Base
 {
     public function get_name()
     {
-        return 'decent-animated-testimonials';
+        return 'de-animated-testimonials';
     }
 
     public function get_title()
@@ -34,12 +34,12 @@ class Decent_Animated_Testimonials_Widget extends \Elementor\Widget_Base
 
     public function get_style_depends()
     {
-        return ['decent-animated-testimonials'];
+        return ['de-animated-testimonials'];
     }
 
     public function get_script_depends()
     {
-        return ['decent-animated-testimonials'];
+        return ['de-animated-testimonials'];
     }
 
     protected function register_controls()
@@ -201,7 +201,7 @@ class Decent_Animated_Testimonials_Widget extends \Elementor\Widget_Base
                 'type' => \Elementor\Controls_Manager::DIMENSIONS,
                 'size_units' => ['px', 'em', '%'],
                 'selectors' => [
-                    '{{WRAPPER}} .decent-animated-testimonials' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                    '{{WRAPPER}} .de-animated-testimonials' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
                 ],
             ]
         );
@@ -313,7 +313,7 @@ class Decent_Animated_Testimonials_Widget extends \Elementor\Widget_Base
         $pause_on_hover = $settings['pause_on_hover'] === 'yes';
         $layout_style = $settings['layout_style'] ?? 'style-1';
         ?>
-        <div class="decent-animated-testimonials decent-testimonials-<?php echo esc_attr($layout_style); ?>" 
+        <div class="de-animated-testimonials decent-testimonials-<?php echo esc_attr($layout_style); ?>" 
              data-autoplay="<?php echo esc_attr($autoplay ? 'true' : 'false'); ?>" 
              data-autoplay-speed="<?php echo esc_attr($autoplay_speed); ?>"
              data-pause-on-hover="<?php echo esc_attr($pause_on_hover ? 'true' : 'false'); ?>">

@@ -21,7 +21,7 @@ class Decent_Elements_Icon_Box_Widget extends Widget_Base
      */
     public function get_name()
     {
-        return 'decent-icon-box';
+        return 'de-icon-box';
     }
 
     /**
@@ -147,8 +147,8 @@ class Decent_Elements_Icon_Box_Widget extends Widget_Base
                 'type' => Controls_Manager::COLOR,
                 'default' => '#007cba',
                 'selectors' => [
-                    '{{WRAPPER}} .decent-icon-box .icon-box-icon i' => 'color: {{VALUE}};',
-                    '{{WRAPPER}} .decent-icon-box .icon-box-icon svg' => 'fill: {{VALUE}};',
+                    '{{WRAPPER}} .de-icon-box .icon-box-icon i' => 'color: {{VALUE}};',
+                    '{{WRAPPER}} .de-icon-box .icon-box-icon svg' => 'fill: {{VALUE}};',
                 ],
             ]
         );
@@ -169,8 +169,8 @@ class Decent_Elements_Icon_Box_Widget extends Widget_Base
                     'size' => 40,
                 ],
                 'selectors' => [
-                    '{{WRAPPER}} .decent-icon-box .icon-box-icon i' => 'font-size: {{SIZE}}{{UNIT}};',
-                    '{{WRAPPER}} .decent-icon-box .icon-box-icon svg' => 'width: {{SIZE}}{{UNIT}}; height: {{SIZE}}{{UNIT}};',
+                    '{{WRAPPER}} .de-icon-box .icon-box-icon i' => 'font-size: {{SIZE}}{{UNIT}};',
+                    '{{WRAPPER}} .de-icon-box .icon-box-icon svg' => 'width: {{SIZE}}{{UNIT}}; height: {{SIZE}}{{UNIT}};',
                 ],
             ]
         );
@@ -180,7 +180,7 @@ class Decent_Elements_Icon_Box_Widget extends Widget_Base
             [
                 'name' => 'icon_background',
                 'types' => ['classic', 'gradient'],
-                'selector' => '{{WRAPPER}} .decent-icon-box .icon-box-icon',
+                'selector' => '{{WRAPPER}} .de-icon-box .icon-box-icon',
             ]
         );
 
@@ -191,7 +191,7 @@ class Decent_Elements_Icon_Box_Widget extends Widget_Base
                 'type' => Controls_Manager::DIMENSIONS,
                 'size_units' => ['px', '%', 'em'],
                 'selectors' => [
-                    '{{WRAPPER}} .decent-icon-box .icon-box-icon' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                    '{{WRAPPER}} .de-icon-box .icon-box-icon' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
                 ],
             ]
         );
@@ -200,7 +200,7 @@ class Decent_Elements_Icon_Box_Widget extends Widget_Base
             Group_Control_Border::get_type(),
             [
                 'name' => 'icon_border',
-                'selector' => '{{WRAPPER}} .decent-icon-box .icon-box-icon',
+                'selector' => '{{WRAPPER}} .de-icon-box .icon-box-icon',
             ]
         );
 
@@ -211,7 +211,7 @@ class Decent_Elements_Icon_Box_Widget extends Widget_Base
                 'type' => Controls_Manager::DIMENSIONS,
                 'size_units' => ['px', '%'],
                 'selectors' => [
-                    '{{WRAPPER}} .decent-icon-box .icon-box-icon' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                    '{{WRAPPER}} .de-icon-box .icon-box-icon' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
                 ],
             ]
         );
@@ -234,7 +234,7 @@ class Decent_Elements_Icon_Box_Widget extends Widget_Base
                 'type' => Controls_Manager::COLOR,
                 'default' => '#333333',
                 'selectors' => [
-                    '{{WRAPPER}} .decent-icon-box .icon-box-title' => 'color: {{VALUE}};',
+                    '{{WRAPPER}} .de-icon-box .icon-box-title' => 'color: {{VALUE}};',
                 ],
             ]
         );
@@ -243,7 +243,7 @@ class Decent_Elements_Icon_Box_Widget extends Widget_Base
             Group_Control_Typography::get_type(),
             [
                 'name' => 'title_typography',
-                'selector' => '{{WRAPPER}} .decent-icon-box .icon-box-title',
+                'selector' => '{{WRAPPER}} .de-icon-box .icon-box-title',
             ]
         );
 
@@ -254,7 +254,7 @@ class Decent_Elements_Icon_Box_Widget extends Widget_Base
                 'type' => Controls_Manager::DIMENSIONS,
                 'size_units' => ['px', '%', 'em'],
                 'selectors' => [
-                    '{{WRAPPER}} .decent-icon-box .icon-box-title' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                    '{{WRAPPER}} .de-icon-box .icon-box-title' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
                 ],
             ]
         );
@@ -277,7 +277,7 @@ class Decent_Elements_Icon_Box_Widget extends Widget_Base
                 'type' => Controls_Manager::COLOR,
                 'default' => '#666666',
                 'selectors' => [
-                    '{{WRAPPER}} .decent-icon-box .icon-box-description' => 'color: {{VALUE}};',
+                    '{{WRAPPER}} .de-icon-box .icon-box-description' => 'color: {{VALUE}};',
                 ],
             ]
         );
@@ -286,7 +286,7 @@ class Decent_Elements_Icon_Box_Widget extends Widget_Base
             Group_Control_Typography::get_type(),
             [
                 'name' => 'description_typography',
-                'selector' => '{{WRAPPER}} .decent-icon-box .icon-box-description',
+                'selector' => '{{WRAPPER}} .de-icon-box .icon-box-description',
             ]
         );
 
@@ -308,7 +308,7 @@ class Decent_Elements_Icon_Box_Widget extends Widget_Base
         }
 
         ?>
-<div class="decent-icon-box">
+<div class="de-icon-box">
 	<?php if ($has_link) : ?>
 	<a <?php echo $this->get_render_attribute_string('link'); ?>>
 		<?php endif; ?>
@@ -342,7 +342,7 @@ class Decent_Elements_Icon_Box_Widget extends Widget_Base
         ?>
 <# var iconHTML=elementor.helpers.renderIcon( view, settings.icon, { 'aria-hidden' : true }, 'i' , 'object' ); var
 	hasLink=settings.link.url; #>
-	<div class="decent-icon-box">
+	<div class="de-icon-box">
 		<# if ( hasLink ) { #>
 			<a href="{{ settings.link.url }}">
 				<# } #>

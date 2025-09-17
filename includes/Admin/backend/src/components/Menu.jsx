@@ -10,6 +10,8 @@ const Menu = () => {
 		{ path: "/", label: "General" },
 		{ path: "/widgets", label: "Widgets" },
 		{ path: "/extensions", label: "Extensions" },
+		{ path: "/features", label: "Features" },
+		{ path: "/optimizer", label: "Optimizer" },
 		{ path: "/settings", label: "Settings" },
 	];
 

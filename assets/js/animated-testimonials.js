@@ -375,16 +375,16 @@
 
 	// Auto-initialize on document ready
 	$(document).ready(function () {
-		$(".decent-animated-testimonials").decentAnimatedTestimonials();
+		$(".de-animated-testimonials").decentAnimatedTestimonials();
 	});
 
 	// Re-initialize for dynamically added content (Elementor preview)
 	$(window).on("elementor/frontend/init", function () {
 		elementorFrontend.hooks.addAction(
-			"frontend/element_ready/decent-animated-testimonials.default",
+			"frontend/element_ready/de-animated-testimonials.default",
 			function ($scope) {
 				$scope
-					.find(".decent-animated-testimonials")
+					.find(".de-animated-testimonials")
 					.decentAnimatedTestimonials();
 			},
 		);
@@ -415,7 +415,7 @@
 		);
 
 		$(document).ready(function () {
-			$(".decent-animated-testimonials").each(function () {
+			$(".de-animated-testimonials").each(function () {
 				observer.observe(this);
 			});
 		});

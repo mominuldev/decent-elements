@@ -1,5 +1,5 @@
 import Menu from "./Menu";
-import { Button } from "@/components/ui/button";
+// import { Button } from "@/components/ui/button";
 import {
 	Drawer,
 	DrawerClose,
@@ -72,11 +72,11 @@ const Navbar = () => {
 									</DrawerDescription>
 								</DrawerHeader>
 								<DrawerFooter>
-									<Button>Submit</Button>
+									{/*<Button>Submit</Button>*/}
 									<DrawerClose>
-										<Button variant='outline'>
-											Cancel
-										</Button>
+										{/*<Button variant='outline'>*/}
+										{/*	Cancel*/}
+										{/*</Button>*/}
 									</DrawerClose>
 								</DrawerFooter>
 							</DrawerContent>

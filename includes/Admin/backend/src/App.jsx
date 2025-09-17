@@ -1,10 +1,12 @@
-import { Button } from "@/components/ui/button";
+// import { Button } from "@/components/ui/button";
 import Navbar from "@/components/Navbar";
 import { Routes, Route } from "react-router";
 import General from "@/pages/General";
 import Widgets from "@/pages/Widgets";
-import Modules from "@/pages/Modules";
+// import Modules from "@/pages/Modules";
 import Extensions from "@/pages/Extensions";
+// import Features from "@/pages/Features";
+import Optimizer from "@/pages/Optimizer";
 import Settings from "@/pages/Settings";
 import { ToastProvider } from "@/components/ui/ToastProvider";
 import PageTransition from "@/components/PageTransition";
@@ -23,6 +25,8 @@ function App() {
 								path='/extensions'
 								element={<Extensions />}
 							/>
+							{/*<Route path='/features' element={<Features />} />*/}
+							<Route path='/optimizer' element={<Optimizer />} />
 							<Route path='/settings' element={<Settings />} />
 						</Routes>
 					</PageTransition>
