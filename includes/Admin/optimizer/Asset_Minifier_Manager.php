@@ -79,6 +79,26 @@ class Asset_Minifier_Manager
         return $active_widgets;
     }
 
+	// Get Single Id
+	public function is_widget_enabled($widget_name) {
+		$widget_manager = \Decent_Elements\Widget_Manager::instance();
+		$available_widgets = $widget_manager->get_available_widgets();
+		$current_settings = $widget_manager->get_widget_settings();
+
+		foreach ($available_widgets as $widget_id => $widget_data) {
+			if($widget_data['name'] === $widget_name) {
+				$is_enabled = isset($current_settings[$widget_id]) ?
+					(bool) $current_settings[$widget_id] :
+					$widget_data['default'];
+
+				if ($is_enabled) {
+					return $widget_id;
+				}
+			}
+		}
+		return null;
+	}
+
     /**
      * Get active extension IDs
      */
@@ -117,10 +137,10 @@ class Asset_Minifier_Manager
         $scripts = [];
         $direction = is_rtl() ? '.rtl' : '';
 
-        // Widget assets - check actual file paths in assets folder
+        // Widget assets - check actual file paths in assets/widgets folder
         foreach ($widgets as $widget) {
-            $js_path = DECENT_ELEMENTS_PATH . 'assets/js/' . $widget . '.js';
-            $css_path = DECENT_ELEMENTS_PATH . 'assets/css/' . $widget . $direction . '.css';
+            $js_path = DECENT_ELEMENTS_PATH . 'assets/widgets/js/' . $widget . '.js';
+            $css_path = DECENT_ELEMENTS_PATH . 'assets/widgets/css/' . $widget . $direction . '.css';
 
             $script = [];
             if (file_exists($js_path)) {
@@ -136,10 +156,10 @@ class Asset_Minifier_Manager
             }
         }
 
-        // Extension assets
+        // Extension assets - check in assets/extensions folder
         foreach ($extensions as $extension) {
-            $js_path = DECENT_ELEMENTS_PATH . 'assets/js/' . $extension . '.js';
-            $css_path = DECENT_ELEMENTS_PATH . 'assets/css/' . $extension . $direction . '.css';
+            $js_path = DECENT_ELEMENTS_PATH . 'assets/extensions/js/' . $extension . '.js';
+            $css_path = DECENT_ELEMENTS_PATH . 'assets/extensions/css/' . $extension . $direction . '.css';
 
             $script = [];
             if (file_exists($js_path)) {
@@ -180,6 +200,7 @@ class Asset_Minifier_Manager
             if (isset($item['css'])) {
                 $results[] = $item['css'];
             }
+
             return $results;
         }, []);
     }
@@ -303,6 +324,7 @@ class Asset_Minifier_Manager
         $last_optimization = get_option('decent_elements_last_optimization', 0);
 
         $uploads_dir = trailingslashit(wp_upload_dir()['basedir']) . 'decent-elements/minified/';
+
         $js_file = $uploads_dir . 'js/de-scripts.js';
         $css_file = $uploads_dir . 'css/de-styles.css';
 
@@ -322,8 +344,8 @@ class Asset_Minifier_Manager
             return;
         }
 
-        // Only enqueue on pages with Elementor content
-        if (!$this->is_elementor_page()) {
+        // Check if we should load optimized assets
+        if (!$this->should_load_optimized_assets()) {
             return;
         }
 
@@ -339,6 +361,9 @@ class Asset_Minifier_Manager
                 [],
                 filemtime($css_file)
             );
+
+            // Mark that we've loaded optimized styles
+            add_filter('decent_elements_optimized_styles_loaded', '__return_true');
         }
 
         // Enqueue minified JS
@@ -351,7 +376,41 @@ class Asset_Minifier_Manager
                 filemtime($js_file),
                 true
             );
+
+            // Mark that we've loaded optimized scripts
+            add_filter('decent_elements_optimized_scripts_loaded', '__return_true');
         }
+    }
+
+    /**
+     * Check if we should load optimized assets
+     */
+    private function should_load_optimized_assets()
+    {
+        // Always load if we have Elementor content
+        if ($this->is_elementor_page()) {
+            return true;
+        }
+
+        // Also load for pages that might have Elementor shortcodes or templates
+        global $post;
+        if ($post && (
+            // Check for Elementor shortcodes in content
+            has_shortcode($post->post_content, 'elementor-template') ||
+            // Check if this is a template page
+            is_singular('elementor_library') ||
+            // Check for any Elementor-related content
+            strpos($post->post_content, 'elementor') !== false
+        )) {
+            return true;
+        }
+
+        // Load on pages where widgets might be used (like archives, home page)
+        if (is_home() || is_front_page() || is_archive() || is_search()) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -376,21 +435,33 @@ class Asset_Minifier_Manager
      */
     public function maybe_dequeue_individual_assets()
     {
-        if (!$this->is_optimization_enabled() || !$this->is_elementor_page()) {
+        if (!$this->is_optimization_enabled()) {
+            return;
+        }
+
+        // Only dequeue if optimized assets are loaded
+        if (!apply_filters('decent_elements_optimized_styles_loaded', false) &&
+            !apply_filters('decent_elements_optimized_scripts_loaded', false)) {
             return;
         }
 
         // Dequeue individual widget assets that are included in the optimized bundle
         $widgets = $this->get_widget_ids();
         foreach ($widgets as $widget) {
-            wp_dequeue_style($widget);
-            wp_dequeue_script($widget);
+            // Use correct asset handle format
+            wp_dequeue_style('de-' . $widget);
+            wp_dequeue_script('de-' . $widget);
+            wp_deregister_style('de-' . $widget);
+            wp_deregister_script('de-' . $widget);
         }
 
         $extensions = $this->get_extension_ids();
         foreach ($extensions as $extension) {
-            wp_dequeue_style($extension);
-            wp_dequeue_script($extension);
+            // Use correct asset handle format
+            wp_dequeue_style('de-' . $extension);
+            wp_dequeue_script('de-' . $extension);
+            wp_deregister_style('de-' . $extension);
+            wp_deregister_script('de-' . $extension);
         }
     }
 
@@ -455,6 +526,90 @@ class Asset_Minifier_Manager
         ];
 
         return $stats;
+    }
+
+    /**
+     * Debug asset optimization issues
+     */
+    public function debug_asset_generation()
+    {
+        $debug_info = [];
+
+        // Check optimization status
+        $debug_info['optimization_enabled'] = $this->is_optimization_enabled();
+
+        // Get active widgets and extensions
+        $widgets = $this->get_widget_ids();
+        $extensions = $this->get_extension_ids();
+
+        $debug_info['active_widgets'] = $widgets;
+        $debug_info['active_extensions'] = $extensions;
+
+        // Check asset files existence
+        $debug_info['asset_files'] = [];
+
+        // Check widget assets
+        foreach ($widgets as $widget) {
+            $js_path = DECENT_ELEMENTS_PATH . 'assets/widgets/js/' . $widget . '.js';
+            $css_path = DECENT_ELEMENTS_PATH . 'assets/widgets/css/' . $widget . '.css';
+
+            $debug_info['asset_files']['widgets'][$widget] = [
+                'js_exists' => file_exists($js_path),
+                'js_path' => $js_path,
+                'css_exists' => file_exists($css_path),
+                'css_path' => $css_path
+            ];
+        }
+
+        // Check extension assets
+        foreach ($extensions as $extension) {
+            $js_path = DECENT_ELEMENTS_PATH . 'assets/extensions/js/' . $extension . '.js';
+            $css_path = DECENT_ELEMENTS_PATH . 'assets/extensions/css/' . $extension . '.css';
+
+            $debug_info['asset_files']['extensions'][$extension] = [
+                'js_exists' => file_exists($js_path),
+                'js_path' => $js_path,
+                'css_exists' => file_exists($css_path),
+                'css_path' => $css_path
+            ];
+        }
+
+        // Get found assets
+        $assets = $this->get_assets();
+        $debug_info['found_assets'] = $assets;
+        $debug_info['js_paths'] = $this->get_js_paths();
+        $debug_info['css_paths'] = $this->get_css_paths();
+
+        // Check minification library
+        $debug_info['minify_library_loaded'] = class_exists('MatthiasMullie\Minify\JS');
+
+        // Check upload directory
+        $uploads_dir = trailingslashit(wp_upload_dir()['basedir']) . 'decent-elements/minified/';
+        $debug_info['uploads_dir'] = $uploads_dir;
+        $debug_info['uploads_dir_exists'] = is_dir($uploads_dir);
+        $debug_info['uploads_dir_writable'] = is_writable(dirname($uploads_dir));
+
+        // Check generated files
+        $js_file = $uploads_dir . 'js/de-scripts.js';
+        $css_file = $uploads_dir . 'css/de-styles.css';
+
+        $debug_info['generated_files'] = [
+            'js_file' => $js_file,
+            'js_exists' => file_exists($js_file),
+            'css_file' => $css_file,
+            'css_exists' => file_exists($css_file)
+        ];
+
+        return $debug_info;
+    }
+
+    /**
+     * Force regenerate assets for debugging
+     */
+    public function force_regenerate_assets()
+    {
+        // Force regeneration regardless of timestamps
+        return $this->generate_minified_assets();
     }
 
     /**

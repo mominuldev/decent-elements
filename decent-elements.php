@@ -60,8 +60,6 @@ final class Decent_Elements
 		if (is_admin()) {
 			new Admin_Menu();
 			new Admin_Assets();
-			// Initialize Asset Optimizer Settings
-			require_once DECENT_ELEMENTS_PATH . 'includes/Admin/Asset_Optimizer_Settings.php';
 		}
 		Admin_Panel_API::instance();
 
@@ -224,21 +222,70 @@ final class Decent_Elements
 	 */
 	public function register_elementor_assets()
 	{
+		// Register heading widget assets
+		wp_register_style(
+			'de-heading',
+			DECENT_ELEMENTS_URL . 'assets/widgets/css/heading.css',
+			[],
+			$this->version
+		);
+
+		wp_register_script(
+			'de-heading',
+			DECENT_ELEMENTS_URL . 'assets/widgets/js/heading.js',
+			['jquery'],
+			$this->version,
+			true
+		);
+
 		// Register animated testimonials assets
 		wp_register_style(
 			'de-animated-testimonials',
-			plugin_dir_url(__FILE__) . 'assets/css/animated-testimonials.css',
+			DECENT_ELEMENTS_URL . 'assets/css/animated-testimonials.css',
 			[],
 			$this->version
 		);
 
 		wp_register_script(
 			'de-animated-testimonials',
-			plugin_dir_url(__FILE__) . 'assets/js/animated-testimonials.js',
+			DECENT_ELEMENTS_URL . 'assets/js/animated-testimonials.js',
 			['jquery'],
 			$this->version,
 			true
 		);
+
+		// Register other widget assets as needed
+		$widgets = [
+			'fancy-heading',
+			'image-box',
+			'icon-box',
+			'button'
+		];
+
+		foreach ($widgets as $widget) {
+			// Register CSS if file exists
+			$css_file = DECENT_ELEMENTS_PATH . 'assets/widgets/css/' . $widget . '.css';
+			if (file_exists($css_file)) {
+				wp_register_style(
+					'de-' . $widget,
+					DECENT_ELEMENTS_URL . 'assets/widgets/css/' . $widget . '.css',
+					[],
+					$this->version
+				);
+			}
+
+			// Register JS if file exists
+			$js_file = DECENT_ELEMENTS_PATH . 'assets/widgets/js/' . $widget . '.js';
+			if (file_exists($js_file)) {
+				wp_register_script(
+					'de-' . $widget,
+					DECENT_ELEMENTS_URL . 'assets/widgets/js/' . $widget . '.js',
+					['jquery'],
+					$this->version,
+					true
+				);
+			}
+		}
 	}
 
 	/**
@@ -275,4 +322,3 @@ final class Decent_Elements
 }
 
 Decent_Elements::get_instance();
-
