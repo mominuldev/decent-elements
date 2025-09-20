@@ -111,7 +111,7 @@ class Decent_Elements_Extension_Manager
     {
         $extension = $this->extensions[$extension_id];
         $extension_file = DECENT_ELEMENTS_PATH . 'includes/extensions/' . $extension['file'];
-        
+
         if (file_exists($extension_file)) {
             require_once $extension_file;
             
@@ -155,7 +155,13 @@ class Decent_Elements_Extension_Manager
      */
     public function get_extension_settings()
     {
-        return get_option('decent_elements_extension_settings', []);
+        $default_settings = [];
+        foreach ($this->extensions as $extension_id => $extension_data) {
+            $default_settings[$extension_id] = $extension_data['default'];
+        }
+
+        $saved_settings = get_option('decent_elements_extension_settings', $default_settings);
+        return wp_parse_args($saved_settings, $default_settings);
     }
 
     /**
@@ -164,6 +170,7 @@ class Decent_Elements_Extension_Manager
      */
     public function update_extension_settings($settings)
     {
+        update_option('decent_elements_settings_last_updated', time());
         return update_option('decent_elements_extension_settings', $settings);
     }
 
@@ -174,7 +181,7 @@ class Decent_Elements_Extension_Manager
     public function is_extension_enabled($extension_id)
     {
         $settings = $this->get_extension_settings();
-        return isset($settings[$extension_id]) ? $settings[$extension_id] : 
+        return isset($settings[$extension_id]) ? (bool) $settings[$extension_id] :
                (isset($this->extensions[$extension_id]) ? $this->extensions[$extension_id]['default'] : false);
     }
 
@@ -236,3 +243,4 @@ function Decent_Elements_Extension_Manager()
 
 // Global for backwards compatibility.
 $GLOBALS['decent_elements_extension_manager'] = Decent_Elements_Extension_Manager();
+

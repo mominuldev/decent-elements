@@ -102,6 +102,7 @@ class Widget_Manager
      */
     public function update_widget_settings($settings)
     {
+        update_option('decent_elements_settings_last_updated', time());
         return update_option('decent_elements_widget_settings', $settings);
     }
 

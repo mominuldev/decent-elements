@@ -12,6 +12,12 @@ if (!defined('ABSPATH')) {
     exit;
 } // Exit if accessed directly
 
+if (!class_exists('MatthiasMullie\Minify\Minify')) {
+    require_once __DIR__ . '/autoload.php';
+}
+
+use MatthiasMullie\Minify;
+
 class Asset_Minifier_Manager
 {
     /**
@@ -33,10 +39,12 @@ class Asset_Minifier_Manager
     public function init()
     {
         // Only run if optimization is enabled
-	    error_log($this->is_optimization_enabled());
         if ($this->is_optimization_enabled()) {
             add_action('wp_enqueue_scripts', [$this, 'enqueue_optimized_assets'], 999);
             add_action('admin_init', [$this, 'maybe_regenerate_assets']);
+
+            // Hook into Elementor to disable individual widget assets when optimization is enabled
+            add_action('elementor/frontend/after_register_scripts', [$this, 'maybe_dequeue_individual_assets'], 999);
         }
     }
 
@@ -76,6 +84,11 @@ class Asset_Minifier_Manager
      */
     public function get_extension_ids()
     {
+        // Check if extension manager exists
+        if (!class_exists('\Decent_Elements\Decent_Elements_Extension_Manager')) {
+            return [];
+        }
+
         $extension_manager = \Decent_Elements\Decent_Elements_Extension_Manager::instance();
         $available_extensions = $extension_manager->get_available_extensions();
         $current_settings = $extension_manager->get_extension_settings();
@@ -104,10 +117,10 @@ class Asset_Minifier_Manager
         $scripts = [];
         $direction = is_rtl() ? '.rtl' : '';
 
-        // Widget assets
+        // Widget assets - check actual file paths in assets folder
         foreach ($widgets as $widget) {
-            $js_path = DECENT_ELEMENTS_PATH . 'assets/widgets/js/de-' . $widget . '.js';
-            $css_path = DECENT_ELEMENTS_PATH . 'assets/widgets/css/de-' . $widget . $direction . '.css';
+            $js_path = DECENT_ELEMENTS_PATH . 'assets/js/' . $widget . '.js';
+            $css_path = DECENT_ELEMENTS_PATH . 'assets/css/' . $widget . $direction . '.css';
 
             $script = [];
             if (file_exists($js_path)) {
@@ -125,8 +138,8 @@ class Asset_Minifier_Manager
 
         // Extension assets
         foreach ($extensions as $extension) {
-            $js_path = DECENT_ELEMENTS_PATH . 'assets/js/extensions/de-' . $extension . '.js';
-            $css_path = DECENT_ELEMENTS_PATH . 'assets/css/extensions/de-' . $extension . $direction . '.css';
+            $js_path = DECENT_ELEMENTS_PATH . 'assets/js/' . $extension . '.js';
+            $css_path = DECENT_ELEMENTS_PATH . 'assets/css/' . $extension . $direction . '.css';
 
             $script = [];
             if (file_exists($js_path)) {
@@ -176,11 +189,7 @@ class Asset_Minifier_Manager
      */
     public function minify_js()
     {
-        // Load autoloader if available
-        $this->load_minify_library();
-
-        $scripts = array_merge($this->get_js_paths());
-
+        $scripts = $this->get_js_paths();
         $scripts = apply_filters('decent_elements/optimization/assets/scripts', $scripts);
 
         if (empty($scripts)) {
@@ -188,15 +197,11 @@ class Asset_Minifier_Manager
         }
 
         $uploads_dir = trailingslashit(wp_upload_dir()['basedir']) . 'decent-elements/minified/js';
-        if (!wp_mkdir_p($uploads_dir)) {
-            return false;
-        }
-
+        wp_mkdir_p($uploads_dir);
         $minified_path = $uploads_dir . "/de-scripts.js";
 
         try {
             if (class_exists('MatthiasMullie\Minify\JS')) {
-                // Use proper minification if library is available
                 $minifier = new \MatthiasMullie\Minify\JS();
                 foreach ($scripts as $item) {
                     if (file_exists($item)) {
@@ -217,7 +222,7 @@ class Asset_Minifier_Manager
 
             update_option('decent_elements_minified_js_generated', time());
             return true;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             error_log('Decent Elements JS Minification Error: ' . $e->getMessage());
             return false;
         }
@@ -228,11 +233,7 @@ class Asset_Minifier_Manager
      */
     public function minify_css()
     {
-        // Load autoloader if available
-        $this->load_minify_library();
-
         $styles = $this->get_css_paths();
-
         $styles = apply_filters('decent_elements/optimization/assets/styles', $styles);
 
         if (empty($styles)) {
@@ -240,15 +241,11 @@ class Asset_Minifier_Manager
         }
 
         $uploads_dir = trailingslashit(wp_upload_dir()['basedir']) . 'decent-elements/minified/css';
-        if (!wp_mkdir_p($uploads_dir)) {
-            return false;
-        }
-
+        wp_mkdir_p($uploads_dir);
         $minified_path = $uploads_dir . "/de-styles.css";
 
         try {
             if (class_exists('MatthiasMullie\Minify\CSS')) {
-                // Use proper minification if library is available
                 $minifier = new \MatthiasMullie\Minify\CSS();
                 foreach ($styles as $item) {
                     if (file_exists($item)) {
@@ -269,27 +266,9 @@ class Asset_Minifier_Manager
 
             update_option('decent_elements_minified_css_generated', time());
             return true;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             error_log('Decent Elements CSS Minification Error: ' . $e->getMessage());
             return false;
-        }
-    }
-
-    /**
-     * Load minify library
-     */
-    private function load_minify_library()
-    {
-        // Try to load the autoloader
-        $autoload_file = __DIR__ . '/autoload.php';
-        if (file_exists($autoload_file)) {
-            require_once $autoload_file;
-        }
-
-        // Try composer autoloader
-        $composer_autoload = __DIR__ . '/vendor/autoload.php';
-        if (file_exists($composer_autoload)) {
-            require_once $composer_autoload;
         }
     }
 
@@ -337,41 +316,85 @@ class Asset_Minifier_Manager
     /**
      * Enqueue optimized assets
      */
-	public function enqueue_optimized_assets()
-	{
-		if (!$this->is_optimization_enabled()) {
-			return;
-		}
+    public function enqueue_optimized_assets()
+    {
+        if (!$this->is_optimization_enabled()) {
+            return;
+        }
 
-		$uploads_url = trailingslashit(wp_upload_dir()['baseurl']) . 'decent-elements/minified/';
-		$uploads_dir = trailingslashit(wp_upload_dir()['basedir']) . 'decent-elements/minified/';
+        // Only enqueue on pages with Elementor content
+        if (!$this->is_elementor_page()) {
+            return;
+        }
 
-		// Enqueue minified CSS
-		$css_file = $uploads_dir . 'css/de-styles.css';
-		if (file_exists($css_file)) {
-			wp_enqueue_style(
-				'decent-elements-optimized-styles',
-				$uploads_url . 'css/de-styles.css',
-				[],
-				filemtime($css_file)
-			);
-		}
+        $uploads_url = trailingslashit(wp_upload_dir()['baseurl']) . 'decent-elements/minified/';
+        $uploads_dir = trailingslashit(wp_upload_dir()['basedir']) . 'decent-elements/minified/';
 
-		// Enqueue minified JS
-		$js_file = $uploads_dir . 'js/de-scripts.js';
-		if (file_exists($js_file)) {
-			wp_enqueue_script(
-				'decent-elements-optimized-scripts',
-				$uploads_url . 'js/de-scripts.js',
-				['jquery'],
-				filemtime($js_file),
-				true
-			);
-		}
-	}
+        // Enqueue minified CSS
+        $css_file = $uploads_dir . 'css/de-styles.css';
+        if (file_exists($css_file)) {
+            wp_enqueue_style(
+                'decent-elements-optimized-styles',
+                $uploads_url . 'css/de-styles.css',
+                [],
+                filemtime($css_file)
+            );
+        }
 
+        // Enqueue minified JS
+        $js_file = $uploads_dir . 'js/de-scripts.js';
+        if (file_exists($js_file)) {
+            wp_enqueue_script(
+                'decent-elements-optimized-scripts',
+                $uploads_url . 'js/de-scripts.js',
+                ['jquery'],
+                filemtime($js_file),
+                true
+            );
+        }
+    }
 
-	/**
+    /**
+     * Check if current page has Elementor content
+     */
+    private function is_elementor_page()
+    {
+        if (!class_exists('\Elementor\Plugin')) {
+            return false;
+        }
+
+        global $post;
+        if (!$post) {
+            return false;
+        }
+
+        return \Elementor\Plugin::$instance->documents->get($post->ID)->is_built_with_elementor();
+    }
+
+    /**
+     * Dequeue individual assets when optimization is enabled
+     */
+    public function maybe_dequeue_individual_assets()
+    {
+        if (!$this->is_optimization_enabled() || !$this->is_elementor_page()) {
+            return;
+        }
+
+        // Dequeue individual widget assets that are included in the optimized bundle
+        $widgets = $this->get_widget_ids();
+        foreach ($widgets as $widget) {
+            wp_dequeue_style($widget);
+            wp_dequeue_script($widget);
+        }
+
+        $extensions = $this->get_extension_ids();
+        foreach ($extensions as $extension) {
+            wp_dequeue_style($extension);
+            wp_dequeue_script($extension);
+        }
+    }
+
+    /**
      * Clear optimized assets
      */
     public function clear_optimized_assets()
@@ -445,10 +468,3 @@ class Asset_Minifier_Manager
         return self::$_instance;
     }
 }
-
-// Initialize the Asset Minifier Manager
-Asset_Minifier_Manager::instance();
-
-$uploads_url = trailingslashit(wp_upload_dir()['baseurl']) . 'decent-elements/minified/';
-
-error_log($uploads_url);

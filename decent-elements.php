@@ -15,6 +15,7 @@
 use Decent_Elements\Admin\Admin_Assets;
 use Decent_Elements\Admin\Admin_Menu;
 use Decent_Elements\Admin\Admin_Panel_API;
+use Decent_Elements\Admin\Optimizer\Asset_Minifier_Manager;
 use Decent_Elements\Widget_Manager;
 
 defined('ABSPATH') || exit;
@@ -59,6 +60,8 @@ final class Decent_Elements
 		if (is_admin()) {
 			new Admin_Menu();
 			new Admin_Assets();
+			// Initialize Asset Optimizer Settings
+			require_once DECENT_ELEMENTS_PATH . 'includes/Admin/Asset_Optimizer_Settings.php';
 		}
 		Admin_Panel_API::instance();
 
@@ -68,7 +71,10 @@ final class Decent_Elements
 		// Initialize Extension Manager
 		require_once DECENT_ELEMENTS_PATH . 'includes/Extension_Manager.php';
 
-		
+		// Initialize Asset Optimizer
+		require_once DECENT_ELEMENTS_PATH . 'includes/Admin/optimizer/Asset_Minifier_Manager.php';
+		Asset_Minifier_Manager::instance();
+
 		// Enqueue frontend assets
 		add_action('wp_enqueue_scripts', [$this, 'enqueue_frontend_assets']);
 		add_action('elementor/frontend/after_register_scripts', [$this, 'register_elementor_assets']);
@@ -269,3 +275,4 @@ final class Decent_Elements
 }
 
 Decent_Elements::get_instance();
+

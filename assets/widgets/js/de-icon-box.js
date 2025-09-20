@@ -1,0 +1,1 @@
+console.log('DE Icon Box widget loaded');
