@@ -20,7 +20,7 @@ const Navbar = () => {
 	// const logoUrl = `https://decentelements.com/wp-content/uploads/2024/05/decent-logo.svg`; // For testing purpose
 
 	return (
-		<div className='bg-white h-[50px] mb-10 shadow-[0px_4px_6px_-4px_rgba(23,25,31,0.10)]'>
+		<div className='sticky top-[32px] z-50 bg-white h-[50px] mb-10 shadow-[0px_4px_6px_-4px_rgba(23,25,31,0.10)]'>
 			<div className='max-w-[1200px] mx-auto'>
 				<div className='flex items-center justify-between gap-2 '>
 					<div className='flex items-center'>
