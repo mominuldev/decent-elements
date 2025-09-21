@@ -22,7 +22,7 @@ class Decent_Elements_Image_Box_Widget extends Widget_Base
      */
     public function get_name()
     {
-        return 'decent-image-box';
+        return 'de-image-box';
     }
 
     /**
@@ -165,7 +165,7 @@ class Decent_Elements_Image_Box_Widget extends Widget_Base
                     ],
                 ],
                 'selectors' => [
-                    '{{WRAPPER}} .decent-image-box .image-box-img' => 'width: {{SIZE}}{{UNIT}};',
+                    '{{WRAPPER}} .de-image-box .image-box-img' => 'width: {{SIZE}}{{UNIT}};',
                 ],
             ]
         );
@@ -174,7 +174,7 @@ class Decent_Elements_Image_Box_Widget extends Widget_Base
             Group_Control_Border::get_type(),
             [
                 'name' => 'image_border',
-                'selector' => '{{WRAPPER}} .decent-image-box .image-box-img img',
+                'selector' => '{{WRAPPER}} .de-image-box .image-box-img img',
             ]
         );
 
@@ -185,7 +185,7 @@ class Decent_Elements_Image_Box_Widget extends Widget_Base
                 'type' => Controls_Manager::DIMENSIONS,
                 'size_units' => ['px', '%'],
                 'selectors' => [
-                    '{{WRAPPER}} .decent-image-box .image-box-img img' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                    '{{WRAPPER}} .de-image-box .image-box-img img' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
                 ],
             ]
         );
@@ -208,7 +208,7 @@ class Decent_Elements_Image_Box_Widget extends Widget_Base
                 'type' => Controls_Manager::COLOR,
                 'default' => '#333333',
                 'selectors' => [
-                    '{{WRAPPER}} .decent-image-box .image-box-title' => 'color: {{VALUE}};',
+                    '{{WRAPPER}} .de-image-box .image-box-title' => 'color: {{VALUE}};',
                 ],
             ]
         );
@@ -217,7 +217,7 @@ class Decent_Elements_Image_Box_Widget extends Widget_Base
             Group_Control_Typography::get_type(),
             [
                 'name' => 'title_typography',
-                'selector' => '{{WRAPPER}} .decent-image-box .image-box-title',
+                'selector' => '{{WRAPPER}} .de-image-box .image-box-title',
             ]
         );
 
@@ -228,7 +228,7 @@ class Decent_Elements_Image_Box_Widget extends Widget_Base
                 'type' => Controls_Manager::DIMENSIONS,
                 'size_units' => ['px', '%', 'em'],
                 'selectors' => [
-                    '{{WRAPPER}} .decent-image-box .image-box-title' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                    '{{WRAPPER}} .de-image-box .image-box-title' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
                 ],
             ]
         );
@@ -251,7 +251,7 @@ class Decent_Elements_Image_Box_Widget extends Widget_Base
                 'type' => Controls_Manager::COLOR,
                 'default' => '#666666',
                 'selectors' => [
-                    '{{WRAPPER}} .decent-image-box .image-box-description' => 'color: {{VALUE}};',
+                    '{{WRAPPER}} .de-image-box .image-box-description' => 'color: {{VALUE}};',
                 ],
             ]
         );
@@ -260,7 +260,7 @@ class Decent_Elements_Image_Box_Widget extends Widget_Base
             Group_Control_Typography::get_type(),
             [
                 'name' => 'description_typography',
-                'selector' => '{{WRAPPER}} .decent-image-box .image-box-description',
+                'selector' => '{{WRAPPER}} .de-image-box .image-box-description',
             ]
         );
 
@@ -282,7 +282,7 @@ class Decent_Elements_Image_Box_Widget extends Widget_Base
         }
 
         ?>
-        <div class="decent-image-box">
+        <div class="de-image-box">
             <?php if ($has_link) : ?>
                 <a <?php echo $this->get_render_attribute_string('link'); ?>>
             <?php endif; ?>
@@ -325,7 +325,7 @@ class Decent_Elements_Image_Box_Widget extends Widget_Base
         var image_url = elementor.imagesManager.getImageUrl( image );
         var hasLink = settings.link.url;
         #>
-        <div class="decent-image-box">
+        <div class="de-image-box">
             <# if ( hasLink ) { #>
                 <a href="{{ settings.link.url }}">
             <# } #>

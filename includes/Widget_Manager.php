@@ -17,48 +17,54 @@ class Widget_Manager
      */
     private static $_instance = null;
 
-    /**
-     * Available widgets
-     * @var array
-     */
-    private $widgets = [
-        'heading' => [
-            'name' => 'Heading',
-            'class' => 'Decent_Elements_Heading_Widget',
-            'file' => 'heading.php',
-            'default' => true
-        ],
-        'dual-color-heading' => [
-            'name' => 'Dual Color Heading',
-            'class' => 'Decent_Elements_Dual_Color_Heading_Widget',
-            'file' => 'dual-color-heading.php',
-            'default' => true
-        ],
-        'image-box' => [
-            'name' => 'Image Box',
-            'class' => 'Decent_Elements_Image_Box_Widget',
-            'file' => 'image-box.php',
-            'default' => true
-        ],
-        'icon-box' => [
-            'name' => 'Icon Box',
-            'class' => 'Decent_Elements_Icon_Box_Widget',
-            'file' => 'icon-box.php',
-            'default' => true
-        ],
-        'button' => [
-            'name' => 'Button',
-            'class' => 'Decent_Elements_Button_Widget',
-            'file' => 'button.php',
-            'default' => true
-        ],
-        'animated-testimonials' => [
-            'name' => 'Animated Testimonials',
-            'class' => 'Decent_Animated_Testimonials_Widget',
-            'file' => 'animated-testimonials.php',
-            'default' => true
-        ]
-    ];
+	    /**
+	     * Available widgets
+	     * @var array
+	     */
+	    private $widgets = [
+	        'heading' => [
+	            'name' => 'Heading',
+	            'class' => 'Heading',
+	            'file' => 'heading/heading.php',
+	            'default' => true
+	        ],
+	        'fancy-heading' => [
+	            'name' => 'Fancy Heading',
+	            'class' => 'Fancy_Heading',
+	            'file' => 'fancy-heading/fancy-heading.php',
+	            'default' => true
+	        ],
+	        'image-box' => [
+	            'name' => 'Image Box',
+	            'class' => 'Decent_Elements_Image_Box_Widget',
+	            'file' => 'image-box.php',
+	            'default' => true
+	        ],
+	        'icon-box' => [
+	            'name' => 'Icon Box',
+	            'class' => 'Decent_Elements_Icon_Box_Widget',
+	            'file' => 'icon-box.php',
+	            'default' => true
+	        ],
+	        'button' => [
+	            'name' => 'Button',
+	            'class' => 'Button',
+	            'file' => 'button/button.php',
+	            'default' => true
+	        ],
+	        'animated-testimonials' => [
+	            'name' => 'Testimonials',
+	            'class' => 'Testimonials',
+	            'file' => 'testimonials/testimonials.php',
+	            'default' => true
+	        ],
+		    'posts' => [
+			    'name' => 'Posts',
+			    'class' => 'Posts',
+			    'file' => 'posts/posts.php',
+			    'default' => true
+		    ],
+	    ];
 
     /**
      * Constructor function.
@@ -102,6 +108,7 @@ class Widget_Manager
      */
     public function update_widget_settings($settings)
     {
+        update_option('decent_elements_settings_last_updated', time());
         return update_option('decent_elements_widget_settings', $settings);
     }
 

@@ -1,0 +1,1 @@
+console.log('DE Sticky column extension loaded');

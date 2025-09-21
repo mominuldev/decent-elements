@@ -1,0 +1,101 @@
+#de-custom-cursor {
+	position: fixed;
+	top: 0;
+	left: 0;
+	pointer-events: none;
+	z-index: 99999;
+	mix-blend-mode: difference;
+	height: 40px;
+	width: 40px;
+	transition: width 0.3s ease, height 0.3s ease;
+	border: 1px solid #000;
+}
+
+.de-cursor-dot {
+	width: 8px;
+	height: 8px;
+	background: #000;
+	border-radius: 50%;
+	position: relative;
+}
+
+.de-cursor-content {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.de-cursor-text {
+	color: #fff;
+	font-size: 12px;
+	font-weight: 600;
+	white-space: nowrap;
+	padding: 8px 12px;
+	background: rgba(0, 0, 0, 0.8);
+	border-radius: 20px;
+	display: none;
+}
+
+.de-cursor-icon {
+	font-size: 20px;
+	color: #fff;
+	display: none;
+}
+
+.de-cursor-svg {
+	width: 30px;
+	height: 30px;
+	fill: #fff;
+	display: none;
+}
+
+.de-cursor-image {
+	width: 60px;
+	height: 60px;
+	object-fit: cover;
+	border-radius: 8px;
+	display: none;
+}
+
+.de-cursor-icon {
+	font-size: 20px;
+	color: #fff;
+	display: none;
+	width: 40px;
+	height: 40px;
+	background: rgba(0, 0, 0, 0.8);
+	border-radius: 50%;
+	align-items: center;
+	justify-content: center;
+}
+
+.de-cursor-icon i {
+	font-size: 18px;
+}
+
+.de-cursor-icon img {
+	width: 24px;
+	height: 24px;
+	filter: invert(1); /* Make SVG icons white */
+}
+
+
+/* Hide default cursor */
+body, * {
+	cursor: none !important;
+}
+
+/* Mobile disable */
+@media (max-width: 768px) {
+	#de-custom-cursor {
+		display: none !important;
+	}
+
+	body, * {
+		cursor: auto !important;
+	}
+}

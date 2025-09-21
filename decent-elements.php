@@ -15,6 +15,7 @@
 use Decent_Elements\Admin\Admin_Assets;
 use Decent_Elements\Admin\Admin_Menu;
 use Decent_Elements\Admin\Admin_Panel_API;
+use Decent_Elements\Admin\Optimizer\Asset_Minifier_Manager;
 use Decent_Elements\Widget_Manager;
 
 defined('ABSPATH') || exit;
@@ -68,7 +69,10 @@ final class Decent_Elements
 		// Initialize Extension Manager
 		require_once DECENT_ELEMENTS_PATH . 'includes/Extension_Manager.php';
 
-		
+		// Initialize Asset Optimizer
+		require_once DECENT_ELEMENTS_PATH . 'includes/Admin/optimizer/Asset_Minifier_Manager.php';
+		Asset_Minifier_Manager::instance();
+
 		// Enqueue frontend assets
 		add_action('wp_enqueue_scripts', [$this, 'enqueue_frontend_assets']);
 		add_action('elementor/frontend/after_register_scripts', [$this, 'register_elementor_assets']);
@@ -218,21 +222,70 @@ final class Decent_Elements
 	 */
 	public function register_elementor_assets()
 	{
-		// Register animated testimonials assets
+		// Register heading widget assets
 		wp_register_style(
-			'decent-animated-testimonials',
-			plugin_dir_url(__FILE__) . 'assets/css/animated-testimonials.css',
+			'de-heading',
+			DECENT_ELEMENTS_URL . 'assets/widgets/css/heading.css',
 			[],
 			$this->version
 		);
 
 		wp_register_script(
-			'decent-animated-testimonials',
-			plugin_dir_url(__FILE__) . 'assets/js/animated-testimonials.js',
+			'de-heading',
+			DECENT_ELEMENTS_URL . 'assets/widgets/js/heading.js',
 			['jquery'],
 			$this->version,
 			true
 		);
+
+		// Register animated testimonials assets
+		wp_register_style(
+			'de-animated-testimonials',
+			DECENT_ELEMENTS_URL . 'assets/css/animated-testimonials.css',
+			[],
+			$this->version
+		);
+
+		wp_register_script(
+			'de-animated-testimonials',
+			DECENT_ELEMENTS_URL . 'assets/js/animated-testimonials.js',
+			['jquery'],
+			$this->version,
+			true
+		);
+
+		// Register other widget assets as needed
+		$widgets = [
+			'fancy-heading',
+			'image-box',
+			'icon-box',
+			'button'
+		];
+
+		foreach ($widgets as $widget) {
+			// Register CSS if file exists
+			$css_file = DECENT_ELEMENTS_PATH . 'assets/widgets/css/' . $widget . '.css';
+			if (file_exists($css_file)) {
+				wp_register_style(
+					'de-' . $widget,
+					DECENT_ELEMENTS_URL . 'assets/widgets/css/' . $widget . '.css',
+					[],
+					$this->version
+				);
+			}
+
+			// Register JS if file exists
+			$js_file = DECENT_ELEMENTS_PATH . 'assets/widgets/js/' . $widget . '.js';
+			if (file_exists($js_file)) {
+				wp_register_script(
+					'de-' . $widget,
+					DECENT_ELEMENTS_URL . 'assets/widgets/js/' . $widget . '.js',
+					['jquery'],
+					$this->version,
+					true
+				);
+			}
+		}
 	}
 
 	/**
@@ -241,8 +294,8 @@ final class Decent_Elements
 	 */
 	public function enqueue_widget_assets()
 	{
-		wp_enqueue_style('decent-animated-testimonials');
-		wp_enqueue_script('decent-animated-testimonials');
+		wp_enqueue_style('de-animated-testimonials');
+		wp_enqueue_script('de-animated-testimonials');
 	}
 
 	/**

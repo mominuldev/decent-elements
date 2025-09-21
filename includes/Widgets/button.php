@@ -21,7 +21,7 @@ class Decent_Elements_Button_Widget extends Widget_Base
      */
     public function get_name()
     {
-        return 'decent-button';
+        return 'de-button';
     }
 
     /**
@@ -167,7 +167,7 @@ class Decent_Elements_Button_Widget extends Widget_Base
             Group_Control_Typography::get_type(),
             [
                 'name' => 'button_typography',
-                'selector' => '{{WRAPPER}} .decent-button',
+                'selector' => '{{WRAPPER}} .de-button',
             ]
         );
 
@@ -187,7 +187,7 @@ class Decent_Elements_Button_Widget extends Widget_Base
                 'type' => Controls_Manager::COLOR,
                 'default' => '#ffffff',
                 'selectors' => [
-                    '{{WRAPPER}} .decent-button' => 'color: {{VALUE}};',
+                    '{{WRAPPER}} .de-button' => 'color: {{VALUE}};',
                 ],
             ]
         );
@@ -197,7 +197,7 @@ class Decent_Elements_Button_Widget extends Widget_Base
             [
                 'name' => 'button_background',
                 'types' => ['classic', 'gradient'],
-                'selector' => '{{WRAPPER}} .decent-button',
+                'selector' => '{{WRAPPER}} .de-button',
             ]
         );
 
@@ -205,7 +205,7 @@ class Decent_Elements_Button_Widget extends Widget_Base
             Group_Control_Border::get_type(),
             [
                 'name' => 'button_border',
-                'selector' => '{{WRAPPER}} .decent-button',
+                'selector' => '{{WRAPPER}} .de-button',
             ]
         );
 
@@ -213,7 +213,7 @@ class Decent_Elements_Button_Widget extends Widget_Base
             Group_Control_Box_Shadow::get_type(),
             [
                 'name' => 'button_box_shadow',
-                'selector' => '{{WRAPPER}} .decent-button',
+                'selector' => '{{WRAPPER}} .de-button',
             ]
         );
 
@@ -232,7 +232,7 @@ class Decent_Elements_Button_Widget extends Widget_Base
                 'label' => __('Text Color', 'decent-elements'),
                 'type' => Controls_Manager::COLOR,
                 'selectors' => [
-                    '{{WRAPPER}} .decent-button:hover' => 'color: {{VALUE}};',
+                    '{{WRAPPER}} .de-button:hover' => 'color: {{VALUE}};',
                 ],
             ]
         );
@@ -242,7 +242,7 @@ class Decent_Elements_Button_Widget extends Widget_Base
             [
                 'name' => 'button_background_hover',
                 'types' => ['classic', 'gradient'],
-                'selector' => '{{WRAPPER}} .decent-button:hover',
+                'selector' => '{{WRAPPER}} .de-button:hover',
             ]
         );
 
@@ -252,7 +252,7 @@ class Decent_Elements_Button_Widget extends Widget_Base
                 'label' => __('Border Color', 'decent-elements'),
                 'type' => Controls_Manager::COLOR,
                 'selectors' => [
-                    '{{WRAPPER}} .decent-button:hover' => 'border-color: {{VALUE}};',
+                    '{{WRAPPER}} .de-button:hover' => 'border-color: {{VALUE}};',
                 ],
             ]
         );
@@ -261,7 +261,7 @@ class Decent_Elements_Button_Widget extends Widget_Base
             Group_Control_Box_Shadow::get_type(),
             [
                 'name' => 'button_hover_box_shadow',
-                'selector' => '{{WRAPPER}} .decent-button:hover',
+                'selector' => '{{WRAPPER}} .de-button:hover',
             ]
         );
 
@@ -276,7 +276,7 @@ class Decent_Elements_Button_Widget extends Widget_Base
                 'type' => Controls_Manager::DIMENSIONS,
                 'size_units' => ['px', '%'],
                 'selectors' => [
-                    '{{WRAPPER}} .decent-button' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                    '{{WRAPPER}} .de-button' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
                 ],
                 'separator' => 'before',
             ]
@@ -289,7 +289,7 @@ class Decent_Elements_Button_Widget extends Widget_Base
                 'type' => Controls_Manager::DIMENSIONS,
                 'size_units' => ['px', '%', 'em'],
                 'selectors' => [
-                    '{{WRAPPER}} .decent-button' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                    '{{WRAPPER}} .de-button' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
                 ],
             ]
         );
@@ -311,13 +311,13 @@ class Decent_Elements_Button_Widget extends Widget_Base
             $this->add_link_attributes('button', $link);
         }
 
-        $this->add_render_attribute('button', 'class', 'decent-button');
+        $this->add_render_attribute('button', 'class', 'de-button');
         $this->add_render_attribute('button', 'class', 'size-' . $settings['size']);
 
         $button_tag = $has_link ? 'a' : 'button';
 
         ?>
-        <div class="decent-button-wrapper">
+        <div class="de-button-wrapper">
             <<?php echo esc_attr($button_tag); ?> <?php echo $this->get_render_attribute_string('button'); ?>>
                 <?php if (!empty($settings['icon']['value']) && $settings['icon_align'] === 'left') : ?>
                     <span class="button-icon align-left">
@@ -347,8 +347,8 @@ class Decent_Elements_Button_Widget extends Widget_Base
         var buttonTag = settings.link.url ? 'a' : 'button';
         var iconHTML = elementor.helpers.renderIcon( view, settings.icon, { 'aria-hidden': true }, 'i' , 'object' );
         #>
-        <div class="decent-button-wrapper">
-            <{{{ buttonTag }}} class="decent-button size-{{ settings.size }}" href="{{ settings.link.url }}">
+        <div class="de-button-wrapper">
+            <{{{ buttonTag }}} class="de-button size-{{ settings.size }}" href="{{ settings.link.url }}">
                 <# if ( settings.icon.value && settings.icon_align === 'left' ) { #>
                     <span class="button-icon align-left">
                         {{{ iconHTML.value }}}

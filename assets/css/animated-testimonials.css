@@ -1,4 +1,4 @@
-.decent-animated-testimonials {
+.de-animated-testimonials {
 	max-width: 1200px;
 	margin: 0 auto;
 	padding: 80px 16px;
@@ -16,7 +16,7 @@
 }
 
 @media (min-width: 768px) {
-	.decent-animated-testimonials {
+	.de-animated-testimonials {
 		max-width: 1200px;
 		padding: 80px 32px;
 	}
@@ -27,7 +27,7 @@
 }
 
 @media (min-width: 1024px) {
-	.decent-animated-testimonials {
+	.de-animated-testimonials {
 		padding: 80px 48px;
 	}
 }
@@ -234,7 +234,7 @@
 
 /* Responsive adjustments */
 @media (max-width: 480px) {
-	.decent-animated-testimonials {
+	.de-animated-testimonials {
 		padding: 60px 16px;
 	}
 
@@ -269,18 +269,18 @@
 }
 
 /* Loading state */
-.decent-animated-testimonials.loading .testimonial-image {
+.de-animated-testimonials.loading .testimonial-image {
 	transform: scale(0.9) translateZ(-200px);
 	opacity: 0;
 }
 
-.decent-animated-testimonials.loading .testimonial-item {
+.de-animated-testimonials.loading .testimonial-item {
 	opacity: 0;
 	transform: translateY(40px);
 }
 
 /* Fade in animation on load */
-.decent-animated-testimonials {
+.de-animated-testimonials {
 	animation: fadeIn 0.6s ease-out;
 }
 
