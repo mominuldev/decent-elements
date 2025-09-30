@@ -187,8 +187,8 @@ const Optimizer = () => {
 		<div className={`p-4 bg-white rounded-lg shadow-md max-w-[1200px] mx-auto transition-opacity duration-700 ${fadeIn ? 'opacity-100' : 'opacity-0'}`}>
 			{/* Header */}
 			<div className="mb-6">
-				<h1 className="text-2xl font-bold mb-2">Asset Optimization</h1>
-				<p className="text-gray-600">
+				<h1 className="text-2xl font-bold !mb-0">Asset Optimization</h1>
+				<p className="text-gray-600 !mt-1">
 					Optimize your website performance by minifying and combining CSS and JavaScript files
 				</p>
 			</div>
@@ -197,8 +197,8 @@ const Optimizer = () => {
 			<div className="bg-gray-50 rounded-lg p-6 mb-6">
 				<div className="flex items-center justify-between">
 					<div>
-						<h3 className="text-lg font-semibold mb-2">Enable Asset Optimization</h3>
-						<p className="text-gray-600 text-sm">
+						<h3 className="text-lg font-semibold !my-0">Enable Asset Optimization</h3>
+						<p className="text-gray-600 text-sm !my-0">
 							Automatically minify and combine CSS/JS files for better performance
 						</p>
 					</div>
