@@ -192,13 +192,37 @@ final class Decent_Elements
 	 */
 	public function add_elementor_widget_categories($elements_manager)
 	{
-		$elements_manager->add_category(
-			'decent-elements',
-			[
-				'title' => esc_html__('Decent Elements', 'decent-elements'),
-				'icon' => 'fa fa-plug',
-			]
-		);
+//		$elements_manager->add_category(
+//			'decent-elements',
+//			[
+//				'title' => esc_html__('Decent Elements', 'decent-elements'),
+//				'icon' => 'fa fa-plug',
+//			]
+//		);
+
+
+		$categories = [];
+
+		$categories['decent-elements'] = [
+			'title' => sprintf(__('%s Elements', 'foliocrave-core'), '<strong>Decent</strong>'),
+			'icon'  => 'fa fa-plug'
+		];
+
+
+		if (!version_compare(PHP_VERSION, '7.0.0', '<')) {
+			$old_categories = $elements_manager->get_categories();
+			$categories = array_merge($categories, $old_categories);
+
+			$set_categories = function ($categories) {
+				$this->categories = $categories;
+			};
+
+			$set_categories->call($elements_manager, $categories);
+		} else {
+			foreach ($categories as $key => $category) {
+				$elements_manager->add_category($key, $category);
+			}
+		}
 	}
 
 	/**

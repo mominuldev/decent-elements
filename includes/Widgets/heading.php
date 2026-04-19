@@ -11,8 +11,6 @@ use Elementor\Widget_Base;
 use Elementor\Controls_Manager;
 use Elementor\Group_Control_Typography;
 use Elementor\Group_Control_Text_Shadow;
-use Elementor\Core\Schemes\Typography;
-use Elementor\Core\Schemes\Color;
 
 class Decent_Elements_Heading_Widget extends Widget_Base
 {

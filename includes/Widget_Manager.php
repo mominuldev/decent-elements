@@ -24,14 +24,14 @@ class Widget_Manager
 	    private $widgets = [
 	        'heading' => [
 	            'name' => 'Heading',
-	            'class' => 'Heading',
-	            'file' => 'heading/heading.php',
+	            'class' => 'Decent_Elements_Heading_Widget',
+	            'file' => 'heading.php',
 	            'default' => true
 	        ],
-	        'fancy-heading' => [
-	            'name' => 'Fancy Heading',
-	            'class' => 'Fancy_Heading',
-	            'file' => 'fancy-heading/fancy-heading.php',
+	        'dual-color-heading' => [
+	            'name' => 'Dual Color Heading',
+	            'class' => 'Decent_Elements_Dual_Color_Heading_Widget',
+	            'file' => 'dual-color-heading.php',
 	            'default' => true
 	        ],
 	        'image-box' => [
@@ -48,20 +48,20 @@ class Widget_Manager
 	        ],
 	        'button' => [
 	            'name' => 'Button',
-	            'class' => 'Button',
-	            'file' => 'button/button.php',
+	            'class' => 'Decent_Elements_Button_Widget',
+	            'file' => 'button.php',
 	            'default' => true
 	        ],
 	        'animated-testimonials' => [
 	            'name' => 'Testimonials',
-	            'class' => 'Testimonials',
-	            'file' => 'testimonials/testimonials.php',
+	            'class' => 'Decent_Animated_Testimonials_Widget',
+	            'file' => 'animated-testimonials.php',
 	            'default' => true
 	        ],
 		    'posts' => [
 			    'name' => 'Posts',
-			    'class' => 'Posts',
-			    'file' => 'posts/posts.php',
+			    'class' => 'Decent_Elements_Post_Widget',
+			    'file' => 'posts.php',
 			    'default' => true
 		    ],
 	    ];
