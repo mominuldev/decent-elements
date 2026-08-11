@@ -1,1 +1,0 @@
-console.log('DE Advance animation extension loaded');

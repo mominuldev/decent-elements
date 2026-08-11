@@ -1,5 +1,5 @@
 {
-  "name": "bizzcrave-core",
+  "name": "decent-elements",
   "version": "1.0.0",
   "main": "index.js",
   "server": "https://bizzcrave.test/",
@@ -19,12 +19,12 @@
   "elementorpllicence": "GPLv3",
   "plfoldername": "_pltdomain",
   "scripts": {
-    "dev": "gulp",
-    "build": "gulp build --prod",
-    "bundle": "gulp bundle --prod --nosours",
-    "prod": "gulp prod --prod",
-    "pot": "wp i18n make-pot . languages/bizzcrave-core.pot",
-    "zip": "wp i18n make-pot . languages/bizzcrave-core.pot && gulp compress"
+    "dev": "gulp dev",
+    "build": "gulp build",
+    "bundle": "gulp bundle --prod --nosource",
+    "prod": "gulp build --prod",
+    "pot": "wp i18n make-pot . languages/decent-elements.pot",
+    "zip": "wp i18n make-pot . languages/decent-elements.pot && gulp bundle --prod --nosource"
   },
   "author": "ThemeCrave",
   "license": "ISC",

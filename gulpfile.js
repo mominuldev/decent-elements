@@ -11,24 +11,73 @@ const rename = require('gulp-rename');
 const uglify = require('gulp-uglify');
 const cleanCSS = require('gulp-clean-css');
 const info = require('./package.json');
-const argv = yargs.argv || {};
-const PRODUCTION = argv.prod;
-const NOSOURCE = argv.nosours;
+
+// Read the flags straight from process.argv rather than via `yargs.argv`.
+// yargs v18 no longer exposes a synchronous `.argv` getter on the module export
+// — it evaluates to undefined — so PRODUCTION was silently always false and
+// `gulp build --prod` shipped unminified CSS with sourcemaps.
+const PRODUCTION = process.argv.includes('--prod');
+const NOSOURCE = process.argv.includes('--nosours') || process.argv.includes('--nosource');
+
+/**
+ * Frontend asset groups.
+ *
+ * Sources live in `src-assets/`; compiled output goes to `assets/`, which is
+ * what ships and what Core\Asset_Registry reads.
+ *
+ * Each widget and extension gets its OWN output file rather than a bundle,
+ * because Elementor enqueues them per widget via get_style_depends() — bundling
+ * would defeat the conditional loading. That file-to-file shape is why this
+ * pipeline stays on gulp rather than moving to Vite: Vite is a bundler, and the
+ * admin SPA (which genuinely wants bundling) already uses it.
+ *
+ * Output paths are deliberately uniform — widgets under assets/widgets/,
+ * extensions under assets/extensions/. The plugin previously kept some widget
+ * assets in assets/ and zero-byte duplicates in assets/widgets/, which is how
+ * the optimizer ended up bundling empty files.
+ */
+const STYLE_GROUPS = [
+    { src: 'src-assets/scss/widgets/*.scss', dest: 'assets/widgets/css' },
+    { src: 'src-assets/scss/extensions/*.scss', dest: 'assets/extensions/css' },
+    { src: 'src-assets/scss/global/*.scss', dest: 'assets/css' }
+];
+
+const SCRIPT_GROUPS = [
+    { src: 'src-assets/js/widgets/*.js', dest: 'assets/widgets/js' },
+    { src: 'src-assets/js/extensions/*.js', dest: 'assets/extensions/js' }
+];
 
 const paths = {
     styles: {
-        src: ['src/sass/*.scss'],
-        dest: `assets/frontend/css`
+        watch: 'src-assets/scss/**/*.scss'
     },
     scripts: {
-        src: 'src/js/**/*.js',
-        dest: 'assets/frontend/js'
+        watch: 'src-assets/js/**/*.js'
     },
     package: {
+        // NOTE: `src/` is the plugin's PHP source (PSR-4 root) since the Phase 1
+        // restructure — it MUST ship. It used to be an empty gulp asset folder,
+        // and the old '!src{,/**}' exclusion would now omit every PHP file from
+        // the built zip. Frontend asset sources live in `src-assets/`.
+        //
+        // `vendor/` MUST ship too: Composer provides the autoloader and the
+        // minify library at runtime. Run `composer install --no-dev -o` before
+        // packaging so dev tooling is not bundled.
         src: [
-            '**/*', '!.vscode', '!node_modules{,/**}', '!build{,/**}',
-            '!assets{,/css/app.css.map}', '!src{,/**}','!.gitignore',
-            '!gulpfile.js', '!woocommerce.css', '!woocommerce.css.map','!package.json', '!package-lock.json'
+            '**/*',
+            // Build + dependency noise
+            '!node_modules{,/**}', '!build{,/**}', '!.vite{,/**}',
+            // Frontend asset sources (compiled output under assets/ does ship)
+            '!src-assets{,/**}',
+            // Admin app sources (built bundle under src/Admin/assets/ does ship)
+            '!src/Admin/backend{,/**}',
+            // Developer tooling — never shipped
+            '!composer.json', '!composer.lock', '!package.json', '!package-lock.json',
+            '!gulpfile.js', '!phpcs.xml.dist', '!phpstan.neon.dist', '!phpstan.neon',
+            '!stubs{,/**}', '!tools{,/**}', '!docs{,/**}', '!.github{,/**}',
+            '!.vscode{,/**}', '!.gitignore', '!.gitattributes', '!CLAUDE.md',
+            // Stray artefacts
+            '!assets/css/app.css.map', '!woocommerce.css', '!woocommerce.css.map'
         ],
         dest: 'build'
     }
@@ -45,50 +94,49 @@ const reload = (done) => {
     done();
 }
 
-const styles = () => {
-    return gulp.src(paths.styles.src)
-        .pipe(gulpif(!PRODUCTION, sourcemaps.init())) // For map
-        .pipe(sass({ outputStyle: 'compressed' }).on('error', sass.logError))
-        // .pipe(autoprefixer({
-        //     overrideBrowserslist: ['last 2 versions'],
-        //     cascade: false
-        // }))
-        // .pipe(cleanCSS({ compatibility: 'ie11' })) //Enable to minify
-        .pipe(gulpif(PRODUCTION && !NOSOURCE, cleanCSS({ compatibility: 'ie11' }))) //Enable to minify
-        // .pipe(rename({
-        //     suffix: '.min'
-        // }))
-        // .pipe(gulpif(PRODUCTION, rename({
-        //     suffix: '.min'
-        // })))
-
-        // .pipe(rename({ dirname: '' })) // Remove folder structure
-        .pipe(gulpif(!PRODUCTION, sourcemaps.write('.'))) // For map
-        .pipe(gulp.dest(paths.styles.dest))
+/**
+ * Compile one SCSS group.
+ *
+ * Output filenames match their source, so `heading.scss` becomes `heading.css`
+ * and Core\Asset_Registry finds it. No `.min` suffix and no content hash —
+ * cache busting is the plugin version on the `?ver=` query arg, which is the
+ * same convention the admin app's Vite config follows.
+ */
+const styleGroup = ({ src, dest }) => {
+    const task = () => gulp.src(src, { allowEmpty: true })
+        .pipe(gulpif(!PRODUCTION, sourcemaps.init()))
+        .pipe(sass({ outputStyle: PRODUCTION ? 'compressed' : 'expanded' }).on('error', sass.logError))
+        .pipe(gulpif(PRODUCTION && !NOSOURCE, cleanCSS()))
+        .pipe(gulpif(!PRODUCTION, sourcemaps.write('.')))
+        .pipe(gulp.dest(dest))
         .pipe(browserSync.stream());
-}
 
-const scripts = () => {
-    return gulp.src(paths.scripts.src, { base: 'src' })
-        // .pipe(rename({
-        //     suffix: '.min'
-        // }))
-        .pipe(gulpif(PRODUCTION, rename({
-            suffix: '.min'
-        })))
-        .pipe(rename({ dirname: '' })) // Remove folder structure
-        // .pipe(uglify())
-        .pipe(gulpif(PRODUCTION && !NOSOURCE, uglify())) //Enable to minify
-        .pipe(gulp.dest(paths.scripts.dest));
-}
+    task.displayName = `styles:${dest}`;
+    return task;
+};
+
+/** Compile one JS group. */
+const scriptGroup = ({ src, dest }) => {
+    const task = () => gulp.src(src, { allowEmpty: true })
+        .pipe(gulpif(PRODUCTION && !NOSOURCE, uglify()))
+        .pipe(gulp.dest(dest));
+
+    task.displayName = `scripts:${dest}`;
+    return task;
+};
+
+const styles = gulp.parallel(...STYLE_GROUPS.map(styleGroup));
+const scripts = gulp.parallel(...SCRIPT_GROUPS.map(scriptGroup));
 
 const watch = () => {
-    gulp.watch('src/sass/**/*.scss', styles);
-    gulp.watch('src/js/**/*.js', gulp.series(scripts, reload)); // Watch JS files
-    gulp.watch('**/*.php', reload);
+    gulp.watch(paths.styles.watch, styles);
+    gulp.watch(paths.scripts.watch, gulp.series(scripts, reload));
+    gulp.watch(['**/*.php', '!node_modules/**', '!vendor/**'], reload);
 }
 
-const clean = () => del([paths.package.dest, paths.scripts.dest]);
+// Only the build directory is cleaned. Compiled assets are overwritten in place
+// so a stale delete can never leave the plugin without its stylesheets.
+const clean = () => del([paths.package.dest]);
 
 const compress = () => {
     return gulp.src(paths.package.src)
@@ -113,12 +161,22 @@ const compress = () => {
         });
 }
 
-const dev = gulp.series(clean, gulp.parallel(styles, scripts), watch);
-const bundle = gulp.series(clean, compress);
+// `build` and `prod` are referenced by package.json scripts but were never
+// defined as gulp tasks, so `npm run build` and `npm run prod` both failed with
+// "Task never defined".
+const build = gulp.parallel(styles, scripts);
+const dev = gulp.series(build, gulp.parallel(serve, watch));
+const bundle = gulp.series(clean, build, compress);
+
 module.exports = {
+    build,
+    prod: build,
     dev,
+    styles,
+    scripts,
     bundle,
     compress,
+    clean,
     default: dev
 };
 

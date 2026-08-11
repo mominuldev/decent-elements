@@ -1,1 +1,0 @@
-console.log('DE Button widget loaded');

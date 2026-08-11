@@ -1,0 +1,53 @@
+includes:
+    - vendor/szepeviktor/phpstan-wordpress/extension.neon
+
+parameters:
+    # Start at 4 and ratchet upward as the legacy layer is rewritten.
+    # Target: level 6 after Phase 3, level 8 on src/Core + src/Contracts.
+    level: 4
+
+    phpVersion: 80000
+
+    paths:
+        - decent-elements.php
+        - src
+
+    excludePaths:
+        analyseAndScan:
+            - src/Admin/backend/node_modules
+            - vendor
+        # Legacy files pending rewrite in Phase 3 of docs/ARCHITECTURE-AUDIT.md.
+        # Remove entries as each is modernized. Do not add new ones.
+        analyse:
+            - src/Widgets/*
+            - src/extensions/*
+            - src/Traits/*
+
+    bootstrapFiles:
+        - vendor/autoload.php
+
+    # Elementor publishes no stubs package (php-stubs/elementor-stubs does not
+    # exist), so without these every call into Elementor read as an unknown
+    # symbol — and worse, every method a widget inherits from Widget_Base showed
+    # up as "undefined method" on OUR classes. Ignoring that pattern would have
+    # hidden real typos in first-party code.
+    #
+    # These stubs are generated from a real Elementor checkout. Regenerate after
+    # an Elementor upgrade with:
+    #
+    #     composer stubs
+    #
+    scanFiles:
+        - stubs/elementor-stubs.php
+
+    ignoreErrors:
+        # Defined in elementor.php, which is not part of the stubbed source set.
+        -
+            message: '#Constant ELEMENTOR_VERSION not found#'
+            reportUnmatched: false
+        # Defined by the plugin at runtime in Plugin::define_constants().
+        -
+            message: '#Constant DECENT_ELEMENTS_[A-Z_]+ not found#'
+            reportUnmatched: false
+
+    treatPhpDocTypesAsCertain: false

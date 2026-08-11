@@ -1,1 +1,0 @@
-console.log('DE Scroll Effect extension loaded');

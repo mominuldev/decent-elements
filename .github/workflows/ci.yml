@@ -1,0 +1,114 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  php:
+    name: PHP ${{ matrix.php }}
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        # 8.0 is the supported floor; 8.4 catches deprecations early.
+        php: ['8.0', '8.3', '8.4']
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          coverage: none
+          tools: composer:v2
+
+      - name: Install dependencies
+        uses: ramsey/composer-install@v3
+
+      - name: Lint PHP syntax
+        run: |
+          find decent-elements.php src -name '*.php' \
+            -not -path '*/node_modules/*' \
+            -print0 | xargs -0 -n1 -P4 php -l
+
+      - name: Coding standards
+        run: composer lint
+
+      - name: Static analysis
+        run: composer analyse
+
+  js:
+    name: Admin app
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+          cache-dependency-path: src/Admin/backend/package-lock.json
+
+      - name: Install dependencies
+        working-directory: src/Admin/backend
+        run: npm ci
+
+      - name: Lint
+        working-directory: src/Admin/backend
+        run: npm run lint
+
+      - name: Build
+        working-directory: src/Admin/backend
+        run: npm run build
+
+  case-sensitivity:
+    name: Case-sensitive path check
+    runs-on: ubuntu-latest
+
+    # The plugin is developed on macOS, whose filesystem is case-insensitive.
+    # Paths that differ only in case work there and 404 on Linux production
+    # servers. This job is the guard against that class of bug.
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.0'
+          tools: composer:v2
+
+      - name: Install dependencies
+        uses: ramsey/composer-install@v3
+
+      - name: Assert every PHP path literal resolves
+        run: |
+          set -e
+          # Only PHP paths are checked. These are require'd or included, so a
+          # case mismatch is a fatal error on Linux while working fine on macOS.
+          #
+          # Asset paths are deliberately NOT checked: modules may declare a
+          # stylesheet before it exists, and Core\Asset_Registry skips files
+          # that are missing or empty by design.
+          missing=$(
+            grep -rhoE "'src/[A-Za-z0-9_./-]+\.php'" decent-elements.php src \
+              --include='*.php' 2>/dev/null \
+              | tr -d "'" | sort -u \
+              | while read -r p; do [ -e "$p" ] || echo "$p"; done
+          )
+          if [ -n "$missing" ]; then
+            echo "$missing" | while read -r p; do
+              echo "::error::PHP path does not exist (case mismatch?): $p"
+            done
+            exit 1
+          fi
+          echo "All PHP path literals resolve."
