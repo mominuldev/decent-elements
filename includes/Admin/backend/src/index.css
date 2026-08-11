@@ -1,15 +1,35 @@
-@import "tailwindcss";
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap");
+
+/*
+ * Expanded form of `@import "tailwindcss"` with one deliberate change:
+ * utilities are imported WITHOUT `layer(utilities)`.
+ *
+ * Other admin plugins ship unlayered global resets (e.g. Animation Addons for
+ * Elementor's `halloween-2025.css` does `* { margin: 0; padding: 0; font-family: ... }`),
+ * and in the CSS cascade *unlayered* rules always beat *layered* ones no matter
+ * their specificity. With utilities inside `@layer utilities`, every p-*, m-*,
+ * px-*, space-* class in this panel gets wiped out by those resets. Leaving the
+ * utilities unlayered puts them back on normal specificity rules, where `.p-4`
+ * (0,1,0) beats `*` (0,0,0).
+ */
+@layer theme, base, components, utilities;
+
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/preflight.css" layer(base);
+@import "tailwindcss/utilities.css";
+
 @import "tw-animate-css";
 
-@layer base {
-	@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap");
-
-	html,
-	main {
-		font-family: "Inter", sans-serif;
-		-webkit-font-smoothing: antialiased;
-		-moz-osx-font-smoothing: grayscale;
-	}
+/*
+ * Zero-specificity (`:where()`) so any Tailwind font utility still wins, but
+ * later in source order than third-party admin CSS, so it beats their bare `*`
+ * font-family reset and restores normal inheritance inside the panel.
+ */
+:where(#root),
+:where(#root) :where(*) {
+	font-family: "Inter", sans-serif;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
 }
 
 @theme {
