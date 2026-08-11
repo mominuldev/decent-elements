@@ -1,4 +1,24 @@
+# Dependencies
+node_modules/
+
+# Root Composer vendor only.
+# NOTE: includes/Admin/optimizer/vendor/ is intentionally NOT ignored — it is
+# committed and required at runtime until Phase 1 folds it into root Composer.
 /vendor/
+
+# Build output
+/build/
+*.log
+
+# OS / editor
 .DS_Store
-includes/Admin/backend/node_modules/
-node_modules/node_modules
+Thumbs.db
+.idea/
+.vscode/
+
+# Vite
+.vite/
+
+# Build artefacts
+*.css.map
+*.js.map
